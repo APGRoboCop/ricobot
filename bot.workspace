@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="bot" Database="">
+  <Project Name="bot" Path="bot.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="no"/>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Project Name="bot" ConfigName="Release_Win32"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

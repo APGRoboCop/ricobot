@@ -1,0 +1,51 @@
+﻿  bot.cpp
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\engine\eiface.h(417): warning C4005: 'ARRAYSIZE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winnt.h(1243): note: see previous definition of 'ARRAYSIZE'
+e:\dropbox\src\metamod-p-37\metamod\comp_dep.h(79): warning C4005: 'va_copy': macro redefinition
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdarg.h(20): note: see previous definition of 'va_copy'
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\util.h(252): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\cbase.h(55): warning C4005: 'EXPORT': macro redefinition
+  e:\dropbox\src\hlsdk-2.3-p4\multiplayer\engine\archtypes.h(125): note: see previous definition of 'EXPORT'
+  bot_client.cpp
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\engine\eiface.h(417): warning C4005: 'ARRAYSIZE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winnt.h(1243): note: see previous definition of 'ARRAYSIZE'
+e:\dropbox\src\metamod-p-37\metamod\comp_dep.h(79): warning C4005: 'va_copy': macro redefinition
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdarg.h(20): note: see previous definition of 'va_copy'
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\util.h(252): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\cbase.h(55): warning C4005: 'EXPORT': macro redefinition
+  e:\dropbox\src\hlsdk-2.3-p4\multiplayer\engine\archtypes.h(125): note: see previous definition of 'EXPORT'
+  dll.cpp
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\engine\eiface.h(417): warning C4005: 'ARRAYSIZE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winnt.h(1243): note: see previous definition of 'ARRAYSIZE'
+e:\dropbox\src\metamod-p-37\metamod\comp_dep.h(79): warning C4005: 'va_copy': macro redefinition
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdarg.h(20): note: see previous definition of 'va_copy'
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\util.h(252): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\cbase.h(55): warning C4005: 'EXPORT': macro redefinition
+  e:\dropbox\src\hlsdk-2.3-p4\multiplayer\engine\archtypes.h(125): note: see previous definition of 'EXPORT'
+  engine.cpp
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\engine\eiface.h(417): warning C4005: 'ARRAYSIZE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winnt.h(1243): note: see previous definition of 'ARRAYSIZE'
+e:\dropbox\src\metamod-p-37\metamod\comp_dep.h(79): warning C4005: 'va_copy': macro redefinition
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdarg.h(20): note: see previous definition of 'va_copy'
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\util.h(252): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\cbase.h(55): warning C4005: 'EXPORT': macro redefinition
+  e:\dropbox\src\hlsdk-2.3-p4\multiplayer\engine\archtypes.h(125): note: see previous definition of 'EXPORT'
+  h_export.cpp
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\engine\eiface.h(417): warning C4005: 'ARRAYSIZE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winnt.h(1243): note: see previous definition of 'ARRAYSIZE'
+e:\dropbox\src\metamod-p-37\metamod\comp_dep.h(79): warning C4005: 'va_copy': macro redefinition
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdarg.h(20): note: see previous definition of 'va_copy'
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\util.h(252): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\cbase.h(55): warning C4005: 'EXPORT': macro redefinition
+  e:\dropbox\src\hlsdk-2.3-p4\multiplayer\engine\archtypes.h(125): note: see previous definition of 'EXPORT'
+  util.cpp
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\engine\eiface.h(417): warning C4005: 'ARRAYSIZE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winnt.h(1243): note: see previous definition of 'ARRAYSIZE'
+e:\dropbox\src\metamod-p-37\metamod\comp_dep.h(79): warning C4005: 'va_copy': macro redefinition
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdarg.h(20): note: see previous definition of 'va_copy'
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\util.h(252): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+E:\Dropbox\src\hlsdk-2.3-p4\multiplayer\ricochet\dlls\cbase.h(55): warning C4005: 'EXPORT': macro redefinition
+  e:\dropbox\src\hlsdk-2.3-p4\multiplayer\engine\archtypes.h(125): note: see previous definition of 'EXPORT'
+  Generating Code...
+     Creating library .\Release\ricobot_mm.lib and object .\Release\ricobot_mm.exp
+  bot.vcxproj -> E:\Dropbox\src\ricobot\.\Release\ricobot_mm.dll
