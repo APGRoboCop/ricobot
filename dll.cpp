@@ -131,7 +131,7 @@ META_FUNCTIONS gMetaFunctionTable = {
    NULL, GetEngineFunctions, NULL
 };
 
-plugin_info_t Plugin_info = { META_INTERFACE_VERSION, "Ricobot", "1.1", __DATE__, "Wei Mingzhi",
+plugin_info_t Plugin_info = { META_INTERFACE_VERSION, "Ricobot", "1.2", __DATE__, "Wei Mingzhi",
     "http://yapb.bots-united.com", "RICOBOT", PT_STARTUP, PT_ANYTIME };
 
 // Metamod requesting info about this plugin
@@ -207,7 +207,7 @@ int DispatchSpawn( edict_t *pent )
 {
    if (gpGlobals->deathmatch)
    {
-      char *pClassname = (char *)STRING(pent->v.classname);
+      char *pClassname = const_cast<char *>(STRING(pent->v.classname));
 
       if (strcmp(pClassname, "worldspawn") == 0)
       {
@@ -579,10 +579,10 @@ void StartFrame( void )
                   spawn_time_reset = TRUE;
 
                   if (respawn_time >= 1.0)
-                     respawn_time = min(respawn_time, gpGlobals->time + (float)1.0);
+                     respawn_time = fmin(respawn_time, gpGlobals->time + (float)1.0);
 
                   if (bot_cfg_pause_time >= 1.0)
-                     bot_cfg_pause_time = min(bot_cfg_pause_time, gpGlobals->time + (float)1.0);
+                     bot_cfg_pause_time = fmin(bot_cfg_pause_time, gpGlobals->time + (float)1.0);
                }
             }
          }

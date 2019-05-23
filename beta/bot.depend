@@ -1,0 +1,207 @@
+# depslib dependency file v1.0
+1108368530 source:c:\users\ryan\dropbox\src\ricobot\bot.cpp
+	"bot.h"
+
+1108368532 c:\users\ryan\dropbox\src\ricobot\bot.h
+	<string.h>
+	<ctype.h>
+	"extdll.h"
+	"dllapi.h"
+	"h_export.h"
+	"meta_api.h"
+	"enginecallback.h"
+	"cbase.h"
+	"entity_state.h"
+	"bot_func.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\extdll.h
+	"archtypes.h"
+	"winsani_in.h"
+	"windows.h"
+	"winsani_out.h"
+	<limits.h>
+	<stdarg.h>
+	<string.h>
+	"stdio.h"
+	"stdlib.h"
+	"math.h"
+	"vector.h"
+	"const.h"
+	"progdefs.h"
+	"edict.h"
+	"eiface.h"
+	"cdll_dll.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\engine\archtypes.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\winsani_in.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\winsani_out.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\vector.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\const.h
+	"in_buttons.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\in_buttons.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\engine\progdefs.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\engine\edict.h
+	"progdefs.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\engine\eiface.h
+	"archtypes.h"
+	<stdio.h>
+	"custom.h"
+	"cvardef.h"
+	"Sequence.h"
+	"../common/crc.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\engine\custom.h
+	"const.h"
+	"crc.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\crc.h
+	"archtypes.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\cvardef.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\engine\sequence.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\common\crc.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\cdll_dll.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\dllapi.h
+	"sdk_util.h"
+	"osdep.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\sdk_util.h
+	"enginecallbacks.h"
+	"comp_dep.h"
+	<util.h>
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\enginecallbacks.h
+	"meta_eiface.h"
+	<enginecallback.h>
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\meta_eiface.h
+	<extdll.h>
+	<string.h>
+	"comp_dep.h"
+	"osdep.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\comp_dep.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\osdep.h
+	<string.h>
+	<ctype.h>
+	<errno.h>
+	"comp_dep.h"
+	"types_meta.h"
+	"mreg.h"
+	"log_meta.h"
+	<dlfcn.h>
+	<limits.h>
+	<stdlib.h>
+	<unistd.h>
+	<io.h>
+	<direct.h>
+	<unistd.h>
+	<sys/stat.h>
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\types_meta.h
+	"comp_dep.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\mreg.h
+	"types_meta.h"
+	"comp_dep.h"
+	"new_baseclass.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\new_baseclass.h
+	<malloc.h>
+	"comp_dep.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\log_meta.h
+	"comp_dep.h"
+	"osdep.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\enginecallback.h
+	"event_flags.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\event_flags.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\util.h
+	"archtypes.h"
+	"activity.h"
+	"enginecallback.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\activity.h
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\h_export.h
+	"osdep.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\meta_api.h
+	"comp_dep.h"
+	"dllapi.h"
+	"engine_api.h"
+	"plinfo.h"
+	"osdep.h"
+	"mutil.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\engine_api.h
+	"comp_dep.h"
+	"meta_eiface.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\plinfo.h
+	"comp_dep.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\mutil.h
+	"comp_dep.h"
+	"plinfo.h"
+	"mhook.h"
+	"sdk_util.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\metamod\mhook.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\cbase.h
+	"archtypes.h"
+	"saverestore.h"
+	"schedule.h"
+	"monsterevent.h"
+	"basemonster.h"
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\saverestore.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\schedule.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\monsterevent.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\ricochet\dlls\basemonster.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\entity_state.h
+	"pm_info.h"
+	"weaponinfo.h"
+
+1369874640 c:\users\ryan\dropbox\src\metamod-p-37\hlsdk\pm_shared\pm_info.h
+
+1419997089 c:\users\ryan\dropbox\src\hlsdk2013\common\weaponinfo.h
+
+1108368532 c:\users\ryan\dropbox\src\ricobot\bot_func.h
+
+1108368530 source:c:\users\ryan\dropbox\src\ricobot\bot_client.cpp
+	"bot.h"
+
+1447843323 source:c:\users\ryan\dropbox\src\ricobot\dll.cpp
+	"bot.h"
+
+1108368532 source:c:\users\ryan\dropbox\src\ricobot\engine.cpp
+	"bot.h"
+
+1108368532 source:c:\users\ryan\dropbox\src\ricobot\h_export.cpp
+	"bot.h"
+
+1108368532 source:c:\users\ryan\dropbox\src\ricobot\util.cpp
+	"bot.h"
+

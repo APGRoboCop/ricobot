@@ -48,12 +48,12 @@ void BotClient_Ricochet_DeathMsg(void *p, int bot_index)
    if (state == 0)
    {
       state++;
-      killer_index = *(int *)p;  // ENTINDEX() of killer
+      killer_index = *static_cast<int *>(p);  // ENTINDEX() of killer
    }
    else if (state == 1)
    {
       state++;
-      victim_index = *(int *)p;  // ENTINDEX() of victim
+      victim_index = *static_cast<int *>(p);  // ENTINDEX() of victim
    }
    else if (state == 2)
    {
@@ -83,12 +83,12 @@ void BotClient_Ricochet_AmmoX(void *p, int bot_index)
    else if (state == 1)
    {
       state = 0;
-      bots[bot_index].disc_number = *(int *)p;  // store it away
+      bots[bot_index].disc_number = *static_cast<int *>(p);  // store it away
    }
 }
 
 // This message is sent whenever a player gets or loses powerup(s).
 void BotClient_Ricochet_Powerup(void *p, int bot_index)
 {
-   bots[bot_index].m_iPowerups = *(int *)p;
+   bots[bot_index].m_iPowerups = *static_cast<int *>(p);
 }

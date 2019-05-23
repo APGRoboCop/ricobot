@@ -281,6 +281,11 @@ bool FVisible( const Vector &vecOrigin, edict_t *pEdict )
       return TRUE;  // line of sight is valid.
 }
 
+Vector Center(edict_t * pEdict)
+{
+	return Vector();
+}
+
 
 Vector GetGunPosition(edict_t *pEdict)
 {

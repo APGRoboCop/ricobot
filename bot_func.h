@@ -66,7 +66,7 @@ bool FVisible( const Vector &vecOrigin, edict_t *pEdict );
 Vector Center(edict_t *pEdict);
 Vector GetGunPosition(edict_t *pEdict);
 Vector VecBModelOrigin(edict_t *pEdict);
-void UTIL_ShowMenu( edict_t *pEdict, int slots, int displaytime, bool needmore, char *pText );
+//void UTIL_ShowMenu( edict_t *pEdict, int slots, int displaytime, bool needmore, char *pText );
 void UTIL_BuildFileName(char *filename, char *arg1, char *arg2);
 void ClampAngle(float &angle);
 void ClampAngles(Vector &angles);

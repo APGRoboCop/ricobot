@@ -86,7 +86,7 @@ void pfnWriteByte(int iValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&iValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&iValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
@@ -98,7 +98,7 @@ void pfnWriteChar(int iValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&iValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&iValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
@@ -110,7 +110,7 @@ void pfnWriteShort(int iValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&iValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&iValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
@@ -122,7 +122,7 @@ void pfnWriteLong(int iValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&iValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&iValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
@@ -134,7 +134,7 @@ void pfnWriteAngle(float flValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&flValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&flValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
@@ -146,7 +146,7 @@ void pfnWriteCoord(float flValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&flValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&flValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
@@ -170,7 +170,7 @@ void pfnWriteEntity(int iValue)
    {
       // if this message is for a bot, call the client message function...
       if (botMsgFunction)
-         (*botMsgFunction)((void *)&iValue, botMsgIndex);
+         (*botMsgFunction)(static_cast<void *>(&iValue), botMsgIndex);
    }
 
    RETURN_META(MRES_IGNORED);
