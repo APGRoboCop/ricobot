@@ -1,6 +1,6 @@
 e:\dropbox\src\ricobot\release\ricobot_mm.lib
 e:\dropbox\src\ricobot\release\ricobot_mm.exp
-e:\dropbox\src\ricobot\release\vc141.pdb
+e:\dropbox\src\ricobot\release\vc142.pdb
 e:\dropbox\src\ricobot\release\util.obj
 e:\dropbox\src\ricobot\release\h_export.obj
 e:\dropbox\src\ricobot\release\engine.obj
@@ -8,7 +8,6 @@ e:\dropbox\src\ricobot\release\dll.obj
 e:\dropbox\src\ricobot\release\bot_client.obj
 e:\dropbox\src\ricobot\release\bot.obj
 e:\dropbox\src\ricobot\release\ricobot_mm.dll
-e:\dropbox\src\ricobot\.\release\ricobot_mm.dll
 e:\dropbox\src\ricobot\release\bot.tlog\bot.write.1u.tlog
 e:\dropbox\src\ricobot\release\bot.tlog\cl.command.1.tlog
 e:\dropbox\src\ricobot\release\bot.tlog\cl.read.1.tlog

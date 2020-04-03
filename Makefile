@@ -3,7 +3,7 @@
 OBJ = bot.o bot_client.o dll.o engine.o h_export.o util.o
 
 CCOPT = -DNDEBUG -mtune=generic -march=i686 -O2 -m32 \
-		-msse -msse2 -mfpmath=sse -w -s -pipe \
+		-mmmx -msse -msse2 -mfpmath=sse -w -s -pipe \
 		-fomit-frame-pointer -finline-functions -funsafe-math-optimizations \
 		-falign-loops=2 -falign-jumps=2 -falign-functions=2 \
 
@@ -19,11 +19,11 @@ BASEFLAGS = -Dstricmp=strcasecmp -Dstrcmpi=strcasecmp
 CPPFLAGS = ${BASEFLAGS} ${CFLAGS}
 
 ricobot_mm.so:	${OBJ}
-	gcc -fPIC -shared -o $@ ${OBJ} -ldl -lm
+	gcc-4.8 -fPIC -shared -o $@ ${OBJ} -ldl -lm
 
 clean:
 	-rm -f *.o
 	-rm -f *.so
 
 %.o:	%.cpp
-	gcc ${CPPFLAGS} -c $< -o $@
+	gcc-4.8 ${CPPFLAGS} -c $< -o $@

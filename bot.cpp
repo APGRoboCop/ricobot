@@ -47,9 +47,13 @@ char bot_names[MAX_BOT_NAMES][BOT_NAME_LEN+1];
 
 void BotSpawnInit( bot_t *pBot )
 {
-   pBot->msecnum = 0;
-   pBot->msecdel = 0.0;
-   pBot->msecval = 0.0;
+   //Fix by Cheeseh (RCBot)
+   float fUpdateTime = gpGlobals->time;
+   float fLastRunPlayerMoveTime = gpGlobals->time - 0.1f;
+	
+   //pBot->msecnum = 0;
+   //pBot->msecdel = 0.0;
+   //pBot->msecval = 0.0;
 
    pBot->pBotEnemy = NULL;
    pBot->f_bot_see_enemy_time = gpGlobals->time;
@@ -433,7 +437,7 @@ bool IsDeadlyDrop(bot_t *pBot, Vector vecTargetPos)
 }
 
 // Adjust all Bot Body and View Angles to face an absolute Vector
-void BotFacePosition(bot_t *pBot, Vector vecPos)
+void BotFacePosition(bot_t *pBot, Vector const vecPos)
 {
    edict_t *pEdict = pBot->pEdict;
    Vector vecDirection = UTIL_VecToAngles(vecPos - GetGunPosition(pEdict));
@@ -444,7 +448,7 @@ void BotFacePosition(bot_t *pBot, Vector vecPos)
    pEdict->v.idealpitch = vecDirection.x;
 }
 
-void BotMoveToPosition(bot_t *pBot, Vector vecPos)
+void BotMoveToPosition(bot_t *pBot, Vector const vecPos)
 {
    edict_t *pEdict = pBot->pEdict;
 
@@ -555,6 +559,13 @@ void BotShootAtEnemy( bot_t *pBot )
 
 void BotThink( bot_t *pBot )
 {
+   //Fix by Cheeseh (RCBot)
+   const float msecval = (gpGlobals->time - pBot->fLastRunPlayerMoveTime) * 1000.0f;
+   pBot->fLastRunPlayerMoveTime = gpGlobals->time;
+
+   const float fUpdateInterval = 1.0f / 60.0f; // update at 60 fps
+   pBot->fUpdateTime = gpGlobals->time + fUpdateInterval;
+	
    Vector v_diff;             // vector from previous to current location
    TraceResult tr;
 
@@ -566,7 +577,7 @@ void BotThink( bot_t *pBot )
       strcpy(pBot->name, STRING(pBot->pEdict->v.netname));
 
 // TheFatal - START from Advanced Bot Framework (Thanks Rich!)
-
+/*
    // adjust the millisecond delay based on the frame rate interval...
    if (pBot->msecdel <= gpGlobals->time)
    {
@@ -585,7 +596,7 @@ void BotThink( bot_t *pBot )
       pBot->msecval = 100;
 
 // TheFatal - END
-
+*/
    pEdict->v.button = 0;
    pBot->f_move_speed = 0.0;
    pBot->f_sidemove_speed = 0.0;
@@ -659,7 +670,7 @@ void BotThink( bot_t *pBot )
          pEdict->v.button = IN_ATTACK;
 
       g_engfuncs.pfnRunPlayerMove( pEdict, pEdict->v.v_angle, 0,
-         0, 0, pEdict->v.button, 0, pBot->msecval);
+         0, 0, pEdict->v.button, 0, msecval);
 
       return;
    }
@@ -764,6 +775,6 @@ void BotThink( bot_t *pBot )
    BotFacePosition(pBot, pBot->vecLookAt);
 
    g_engfuncs.pfnRunPlayerMove( pEdict, pEdict->v.v_angle, pBot->f_move_speed,
-      pBot->f_sidemove_speed, 0, pEdict->v.button, pEdict->v.impulse, pBot->msecval);
+      pBot->f_sidemove_speed, 0, pEdict->v.button, pEdict->v.impulse, msecval);
 }
 

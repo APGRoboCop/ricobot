@@ -75,10 +75,14 @@ typedef struct
    float kick_time;
    float create_time;
 
-   int msecnum;
-   float msecdel;
-   float msecval;
+   //Fix by Cheeseh (RCBot)
+   //int msecnum;
+   //float msecdel;
+   //float msecval;
 
+   float fUpdateTime;
+   float fLastRunPlayerMoveTime;
+	
    float f_max_speed;
 
    edict_t *pBotEnemy;
