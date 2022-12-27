@@ -49,11 +49,11 @@ int max_bots = -1;
 int num_bots = 0;
 int prev_num_bots = 0;
 bool g_GameRules = FALSE;
-edict_t *listenserver_edict = NULL;
+edict_t *listenserver_edict = nullptr;
 float welcome_time = 0.0;
 bool welcome_sent = FALSE;
 
-FILE *bot_cfg_fp = NULL;
+FILE *bot_cfg_fp = nullptr;
 bool need_to_open_cfg = TRUE;
 float bot_cfg_pause_time = 0.0;
 float respawn_time = 0.0;
@@ -89,14 +89,14 @@ void GameDLLInit()
 
    BotNameInit();
 
-   UTIL_BuildFileName(filename, "bot_whine.txt", NULL);
+   UTIL_BuildFileName(filename, "bot_whine.txt", nullptr);
 
    bfp = fopen(filename, "r");
 
-   if (bfp != NULL)
+   if (bfp != nullptr)
    {
       while ((whine_count < MAX_BOT_WHINE) &&
-             (fgets(buffer, 80, bfp) != NULL))
+             (fgets(buffer, 80, bfp) != nullptr))
       {
          length = strlen(buffer);
 
@@ -106,7 +106,7 @@ void GameDLLInit()
             length--;
          }
 
-         if ((ptr = strstr(buffer, "%n")) != NULL)
+         if ((ptr = strstr(buffer, "%n")) != nullptr)
          {
             *(ptr+1) = 's';  // change %n to %s
          }
@@ -127,8 +127,8 @@ mutil_funcs_t *gpMetaUtilFuncs;
 meta_globals_t *gpMetaGlobals;
 
 META_FUNCTIONS gMetaFunctionTable = {
-   GetEntityAPI, NULL, NULL, NULL, NULL,
-   NULL, GetEngineFunctions, NULL
+   GetEntityAPI, nullptr, nullptr, nullptr, nullptr,
+   nullptr, GetEngineFunctions, nullptr
 };
 
 plugin_info_t Plugin_info = { META_INTERFACE_VERSION, "Ricobot", "1.2", __DATE__, "Wei Mingzhi",
@@ -176,12 +176,12 @@ C_DLLEXPORT int Meta_Detach(PLUG_LOADTIME, PL_UNLOAD_REASON)
    return TRUE;
 }
 
-void ServerCommand(void)
+void ServerCommand()
 {
    if (strcmp(CMD_ARGV(1), "addbot") == 0)
    {
-      BotCreate( NULL, CMD_ARGV(2), CMD_ARGV(3) );
-      bot_check_time = gpGlobals->time + 5.0;
+      BotCreate(nullptr, CMD_ARGV(2), CMD_ARGV(3) );
+      bot_check_time = gpGlobals->time + 5.0f;
    }
    else if (strcmp(CMD_ARGV(1), "min_bots") == 0)
    {
@@ -313,9 +313,9 @@ void ClientCommand( edict_t *pEntity )
       }
       else if (FStrEq(pcmd, "observer"))
       {
-         if ((arg1 != NULL) && (*arg1 != 0))
+         if ((arg1 != nullptr) && (*arg1 != 0))
          {
-            int temp = atoi(arg1);
+	         const int temp = atoi(arg1);
             if (temp)
                b_observer_mode = TRUE;
             else
@@ -331,9 +331,9 @@ void ClientCommand( edict_t *pEntity )
       }
       else if (FStrEq(pcmd, "botskill"))
       {
-         if ((arg1 != NULL) && (*arg1 != 0))
+         if ((arg1 != nullptr) && (*arg1 != 0))
          {
-            int temp = atoi(arg1);
+	         const int temp = atoi(arg1);
 
             if (temp < 1 || temp > 5)
                ClientPrint(pEntity, HUD_PRINTNOTIFY, "invalid botskill value!\n");
@@ -348,9 +348,9 @@ void ClientCommand( edict_t *pEntity )
       }
       else if (FStrEq(pcmd, "botdontshoot"))
       {
-         if ((arg1 != NULL) && (*arg1 != 0))
+         if ((arg1 != nullptr) && (*arg1 != 0))
          {
-            int temp = atoi(arg1);
+	         const int temp = atoi(arg1);
             if (temp)
                b_botdontshoot = TRUE;
             else
@@ -366,9 +366,9 @@ void ClientCommand( edict_t *pEntity )
       }
       else if (FStrEq(pcmd, "bot_chat_percent"))
       {
-         if ((arg1 != NULL) && (*arg1 != 0))
+         if ((arg1 != nullptr) && (*arg1 != 0))
          {
-            int temp = atoi(arg1);
+	         const int temp = atoi(arg1);
 
             if ((temp < 0) || (temp > 100))
                ClientPrint(pEntity, HUD_PRINTNOTIFY, "invalid bot_chat_percent value!\n");
@@ -386,7 +386,7 @@ void ClientCommand( edict_t *pEntity )
    RETURN_META(MRES_IGNORED);
 }
 
-void StartFrame( void )
+void StartFrame()
 {
    if (gpGlobals->deathmatch)
    {
@@ -406,7 +406,7 @@ void StartFrame( void )
 
          UTIL_BuildFileName(filename, "maps", mapname);
 
-         if ((bot_cfg_fp = fopen(filename, "r")) != NULL)
+         if ((bot_cfg_fp = fopen(filename, "r")) != nullptr)
          {
             for (index = 0; index < 32; index++)
             {
@@ -462,7 +462,7 @@ void StartFrame( void )
 
       if (!IS_DEDICATED_SERVER())
       {
-         if ((listenserver_edict != NULL) && (welcome_sent == FALSE) &&
+         if ((listenserver_edict != nullptr) && (welcome_sent == FALSE) &&
              (welcome_time < 1.0))
          {
             // are they out of observer mode yet?
@@ -474,7 +474,7 @@ void StartFrame( void )
              (welcome_sent == FALSE))
          {
             // send the welcome message to this client
-            MESSAGE_BEGIN(MSG_ONE_UNRELIABLE, SVC_TEMPENTITY, NULL, listenserver_edict);
+            MESSAGE_BEGIN(MSG_ONE_UNRELIABLE, SVC_TEMPENTITY, nullptr, listenserver_edict);
             WRITE_BYTE(TE_TEXTMESSAGE);
             WRITE_BYTE(1);
             WRITE_SHORT(-1);
@@ -515,7 +515,7 @@ void StartFrame( void )
          num_bots = count;
 
       // are we currently respawning bots and is it time to spawn one yet?
-      if (respawn_time > 1.0 && respawn_time <= gpGlobals->time)
+      if (respawn_time > 1.0f && respawn_time <= gpGlobals->time)
       {
          int index = 0;
 
@@ -532,11 +532,11 @@ void StartFrame( void )
             // respawn 1 bot then wait a while (otherwise engine crashes)
             char c_skill[2];
             sprintf(c_skill, "%d", bots[index].bot_skill);
-            BotCreate(NULL, bots[index].name, c_skill);
+            BotCreate(nullptr, bots[index].name, c_skill);
 
-            respawn_time = gpGlobals->time + 2.0;  // set next respawn time
+            respawn_time = gpGlobals->time + 2.0f;  // set next respawn time
 
-            bot_check_time = gpGlobals->time + 5.0;
+            bot_check_time = gpGlobals->time + 5.0f;
          }
          else
             respawn_time = 0.0;
@@ -558,37 +558,37 @@ void StartFrame( void )
 
             UTIL_BuildFileName(filename, "maps", mapname);
 
-            if ((bot_cfg_fp = fopen(filename, "r")) == NULL)
+            if ((bot_cfg_fp = fopen(filename, "r")) == nullptr)
             {
-               UTIL_BuildFileName(filename, "bot.cfg", NULL);
+               UTIL_BuildFileName(filename, "bot.cfg", nullptr);
                bot_cfg_fp = fopen(filename, "r");
             }
 
             if (IS_DEDICATED_SERVER())
-               bot_cfg_pause_time = gpGlobals->time + 5.0;
+               bot_cfg_pause_time = gpGlobals->time + 5.0f;
             else
-               bot_cfg_pause_time = gpGlobals->time + 20.0;
+               bot_cfg_pause_time = gpGlobals->time + 20.0f;
          }
 
          if (!IS_DEDICATED_SERVER() && !spawn_time_reset)
          {
-            if (listenserver_edict != NULL)
+            if (listenserver_edict != nullptr)
             {
                if (IsAlive(listenserver_edict))
                {
                   spawn_time_reset = TRUE;
 
-                  if (respawn_time >= 1.0)
-                     respawn_time = fmin(respawn_time, gpGlobals->time + (float)1.0);
+                  if (respawn_time >= 1.0f)
+                     respawn_time = fmin(respawn_time, gpGlobals->time + 1.0f);
 
                   if (bot_cfg_pause_time >= 1.0)
-                     bot_cfg_pause_time = fmin(bot_cfg_pause_time, gpGlobals->time + (float)1.0);
+                     bot_cfg_pause_time = fmin(bot_cfg_pause_time, gpGlobals->time + 1.0f);
                }
             }
          }
 
          if ((bot_cfg_fp) &&
-             (bot_cfg_pause_time >= 1.0) && (bot_cfg_pause_time <= gpGlobals->time))
+             (bot_cfg_pause_time >= 1.0f) && (bot_cfg_pause_time <= gpGlobals->time))
          {
             // process bot.cfg file options...
             ProcessBotCfgFile();
@@ -599,11 +599,11 @@ void StartFrame( void )
       if (bot_check_time < gpGlobals->time)
       {
          int count = 0;
-         bot_check_time = gpGlobals->time + 5.0;
+         bot_check_time = gpGlobals->time + 5.0f;
 
          for (i = 1; i <= gpGlobals->maxClients; i++)
          {
-            edict_t *pPlayer = INDEXENT(i);
+	         const edict_t *pPlayer = INDEXENT(i);
             if (!FNullEnt(pPlayer) && !pPlayer->free &&
                (pPlayer->v.flags & (FL_CLIENT | FL_FAKECLIENT)))
                count++;
@@ -612,7 +612,7 @@ void StartFrame( void )
          // if there are currently less than the maximum number of "players"
          // then add another bot using the default skill level...
          if (count < max_bots && max_bots != -1)
-            BotCreate( NULL, NULL, NULL );
+            BotCreate(nullptr, nullptr, nullptr);
       }
 
       previous_time = gpGlobals->time;
@@ -634,7 +634,7 @@ C_DLLEXPORT int GetEntityAPI( DLL_FUNCTIONS *pFunctionTable, int interfaceVersio
    return TRUE;
 }
 
-void ProcessBotCfgFile(void)
+void ProcessBotCfgFile()
 {
    int ch;
    char cmd_line[256];
@@ -646,7 +646,7 @@ void ProcessBotCfgFile(void)
    if (bot_cfg_pause_time > gpGlobals->time)
       return;
 
-   if (bot_cfg_fp == NULL)
+   if (bot_cfg_fp == nullptr)
       return;
 
    cmd_index = 0;
@@ -685,7 +685,7 @@ void ProcessBotCfgFile(void)
    {
       fclose(bot_cfg_fp);
 
-      bot_cfg_fp = NULL;
+      bot_cfg_fp = nullptr;
 
       bot_cfg_pause_time = 0.0;
    }
@@ -698,7 +698,7 @@ void ProcessBotCfgFile(void)
 
    cmd_index = 0;
    cmd = cmd_line;
-   arg1 = arg2 = NULL;
+   arg1 = arg2 = nullptr;
 
    // skip to blank or end of string...
    while ((cmd_line[cmd_index] != ' ') && (cmd_line[cmd_index] != 0))
@@ -725,7 +725,7 @@ void ProcessBotCfgFile(void)
 
    if (strcmp(cmd, "addbot") == 0)
    {
-      BotCreate( NULL, arg1, arg2 );
+      BotCreate(nullptr, arg1, arg2 );
 
       // have to delay here or engine gives "Tried to write to
       // uninitialized sizebuf_t" error and crashes...
@@ -738,7 +738,7 @@ void ProcessBotCfgFile(void)
 
    if (strcmp(cmd, "botskill") == 0)
    {
-      int temp = atoi(arg1);
+	   const int temp = atoi(arg1);
 
       if ((temp >= 1) && (temp <= 5))
          default_bot_skill = atoi( arg1 );  // set default bot skill level
@@ -748,7 +748,7 @@ void ProcessBotCfgFile(void)
 
    if (strcmp(cmd, "observer") == 0)
    {
-      int temp = atoi(arg1);
+	   const int temp = atoi(arg1);
 
       if (temp)
          b_observer_mode = TRUE;
@@ -760,7 +760,7 @@ void ProcessBotCfgFile(void)
 
    if (strcmp(cmd, "botdontshoot") == 0)
    {
-      int temp = atoi(arg1);
+	   const int temp = atoi(arg1);
 
       if (temp)
          b_botdontshoot = TRUE;
@@ -810,7 +810,7 @@ void ProcessBotCfgFile(void)
 
    if (strcmp(cmd, "bot_chat_percent") == 0)
    {
-      int temp = atoi(arg1);
+	   const int temp = atoi(arg1);
 
       if ((temp >= 0) && (temp <= 100))
          bot_chat_percent = atoi( arg1 );  // set bot chat percent

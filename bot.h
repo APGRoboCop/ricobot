@@ -39,8 +39,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma warning (disable : 4710) // function not inlined
 
-#include <string.h>
-#include <ctype.h>
+#include <cstring>
+#include <cctype>
 
 #include "extdll.h"
 #include "dllapi.h"

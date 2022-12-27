@@ -57,7 +57,7 @@ edict_t *UTIL_FindEntityInSphere( edict_t *pentStart, const Vector &vecCenter, f
    if (!FNullEnt(pentEntity))
       return pentEntity;
 
-   return NULL;
+   return nullptr;
 }
 
 
@@ -69,7 +69,7 @@ edict_t *UTIL_FindEntityByString( edict_t *pentStart, const char *szKeyword, con
 
    if (!FNullEnt(pentEntity))
       return pentEntity;
-   return NULL;
+   return nullptr;
 }
 
 edict_t *UTIL_FindEntityByClassname( edict_t *pentStart, const char *szName )
@@ -106,7 +106,7 @@ void ClientPrint( edict_t *pEntity, int msg_dest, const char *msg_name)
    if (gmsgTextMsg == 0)
       gmsgTextMsg = REG_USER_MSG( "TextMsg", -1 );
 
-   MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgTextMsg, NULL, pEntity );
+   MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgTextMsg, nullptr, pEntity );
    WRITE_BYTE( msg_dest );
    WRITE_STRING( msg_name );
    MESSAGE_END();
@@ -117,7 +117,7 @@ void UTIL_SayText( const char *pText, edict_t *pEdict )
    if (gmsgSayText == 0)
       gmsgSayText = REG_USER_MSG( "SayText", -1 );
 
-   MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, NULL, pEdict );
+   MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, pEdict );
    WRITE_BYTE( ENTINDEX(pEdict) );
    WRITE_STRING( pText );
    MESSAGE_END();
@@ -132,23 +132,23 @@ void UTIL_HostSay( edict_t *pEntity, char *message )
    edict_t *client;
 
    // make sure the text has content
-   for ( pc = message; pc != NULL && *pc != 0; pc++ )
+   for ( pc = message; pc != nullptr && *pc != 0; pc++ )
    {
       if ( isprint( *pc ) && !isspace( *pc ) )
       {
-         pc = NULL;   // we've found an alphanumeric character,  so text is valid
+         pc = nullptr;   // we've found an alphanumeric character,  so text is valid
          break;
       }
    }
 
-   if ( pc != NULL )
+   if ( pc != nullptr)
       return;  // no character found, so say nothing
 
    // turn on color set 2  (color on,  no sound)
    sprintf( text, "%c%s: ", 2, STRING( pEntity->v.netname ) );
 
    j = sizeof(text) - 2 - strlen(text);  // -2 for /n and null terminator
-   if ( (int)strlen(message) > j )
+   if ( static_cast<int>(strlen(message)) > j )
       message[j] = 0;
 
    strcat( text, message );
@@ -162,21 +162,21 @@ void UTIL_HostSay( edict_t *pEntity, char *message )
    if (gmsgSayText == 0)
       gmsgSayText = REG_USER_MSG( "SayText", -1 );
 
-   client = NULL;
-   while ( ((client = UTIL_FindEntityByClassname( client, "player" )) != NULL) &&
+   client = nullptr;
+   while ( ((client = UTIL_FindEntityByClassname( client, "player" )) != nullptr) &&
            (!FNullEnt(client)) ) 
    {
       if ( client == pEntity )  // skip sender of message
          continue;
 
-      MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, NULL, client );
+      MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, client );
          WRITE_BYTE( ENTINDEX(pEntity) );
          WRITE_STRING( text );
       MESSAGE_END();
    }
 
    // print to the sending client
-   MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, NULL, pEntity );
+   MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, pEntity );
       WRITE_BYTE( ENTINDEX(pEntity) );
       WRITE_STRING( text );
    MESSAGE_END();
@@ -229,7 +229,7 @@ bot_t *UTIL_GetBotPointer(edict_t *pEdict)
    if (index < 32)
       return (&bots[index]);
 
-   return NULL;  // return NULL if edict is not a bot
+   return nullptr;  // return NULL if edict is not a bot
 }
 
 
@@ -266,8 +266,8 @@ bool FVisible( const Vector &vecOrigin, edict_t *pEdict )
    // look through caller's eyes
    vecLookerOrigin = pEdict->v.origin + pEdict->v.view_ofs;
 
-   int bInWater = (UTIL_PointContents (vecOrigin) == CONTENTS_WATER);
-   int bLookerInWater = (UTIL_PointContents (vecLookerOrigin) == CONTENTS_WATER);
+   const int bInWater = (UTIL_PointContents (vecOrigin) == CONTENTS_WATER);
+   const int bLookerInWater = (UTIL_PointContents (vecLookerOrigin) == CONTENTS_WATER);
 
    // don't look through water
    if (bInWater != bLookerInWater)
@@ -275,7 +275,7 @@ bool FVisible( const Vector &vecOrigin, edict_t *pEdict )
 
    UTIL_TraceLine(vecLookerOrigin, vecOrigin, ignore_monsters, ignore_glass, pEdict, &tr);
 
-   if (tr.flFraction != 1.0)
+   if (tr.flFraction != 1.0f)
       return FALSE;  // Line of sight is not established
    else
       return TRUE;  // line of sight is valid.
@@ -319,9 +319,9 @@ void UTIL_BuildFileName(char *filename, char *arg1, char *arg2)
 void ClampAngle(float &angle)
 {
    if (angle >= 180)
-      angle -= 360 * (int)(angle / 360 + 0.5);
+      angle -= 360 * static_cast<int>(angle / 360 + 0.5);
    if (angle < 180)
-      angle += 360 * (int)(-angle / 360 + 0.5);
+      angle += 360 * static_cast<int>(-angle / 360 + 0.5);
 }
 
 void ClampAngles(Vector &angles)

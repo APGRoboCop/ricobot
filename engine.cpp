@@ -36,8 +36,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "bot.h"
 
-void (*botMsgFunction)(void *, int) = NULL;
-void (*botMsgEndFunction)(void *, int) = NULL;
+void (*botMsgFunction)(void *, int) = nullptr;
+void (*botMsgEndFunction)(void *, int) = nullptr;
 int botMsgIndex;
 
 void pfnClientCommand(edict_t* pEdict, char* szFmt, ...)
@@ -51,30 +51,30 @@ void pfnMessageBegin(int msg_dest, int msg_type, const float *pOrigin, edict_t *
 {
    if (gpGlobals->deathmatch)
    {
-      botMsgFunction = NULL;  // no msg function until known otherwise
+      botMsgFunction = nullptr;  // no msg function until known otherwise
       botMsgIndex = UTIL_GetBotIndex(ed); // index of bot receiving message
 
-      if (msg_type == GET_USER_MSG_ID(PLID, "DeathMsg", NULL))
+      if (msg_type == GET_USER_MSG_ID(PLID, "DeathMsg", nullptr))
          botMsgFunction = BotClient_Ricochet_DeathMsg;
-      else if (msg_type == GET_USER_MSG_ID(PLID, "AmmoX", NULL))
+      else if (msg_type == GET_USER_MSG_ID(PLID, "AmmoX", nullptr))
          botMsgFunction = BotClient_Ricochet_AmmoX;
-      else if (msg_type == GET_USER_MSG_ID(PLID, "Powerup", NULL))
+      else if (msg_type == GET_USER_MSG_ID(PLID, "Powerup", nullptr))
          botMsgFunction = BotClient_Ricochet_Powerup;
    }
 
    RETURN_META(MRES_IGNORED);
 }
 
-void pfnMessageEnd(void)
+void pfnMessageEnd()
 {
    if (gpGlobals->deathmatch)
    {
       if (botMsgEndFunction)
-         (*botMsgEndFunction)(NULL, botMsgIndex);  // NULL indicated msg end
+         (*botMsgEndFunction)(nullptr, botMsgIndex);  // NULL indicated msg end
 
       // clear out the bot message function pointers...
-      botMsgFunction = NULL;
-      botMsgEndFunction = NULL;
+      botMsgFunction = nullptr;
+      botMsgEndFunction = nullptr;
    }
 
    RETURN_META(MRES_IGNORED);

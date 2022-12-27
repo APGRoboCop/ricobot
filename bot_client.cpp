@@ -67,7 +67,7 @@ void BotClient_Ricochet_DeathMsg(void *p, int bot_index)
       {
          // bot killed by world (worldspawn) or killed self?
          if (killer_index == 0 || killer_index == victim_index)
-            bots[index].killer_edict = NULL;
+            bots[index].killer_edict = nullptr;
          else // store edict of player that killed this bot...
             bots[index].killer_edict = INDEXENT(killer_index);
       }

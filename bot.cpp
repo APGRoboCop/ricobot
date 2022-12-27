@@ -55,14 +55,14 @@ void BotSpawnInit( bot_t *pBot )
    //pBot->msecdel = 0.0;
    //pBot->msecval = 0.0;
 
-   pBot->pBotEnemy = NULL;
+   pBot->pBotEnemy = nullptr;
    pBot->f_bot_see_enemy_time = gpGlobals->time;
    pBot->f_bot_find_enemy_time = gpGlobals->time;
    pBot->b_bot_say_killed = FALSE;
    pBot->f_bot_say_killed = 0.0;
 }
 
-void BotNameInit( void )
+void BotNameInit()
 {
    FILE *bot_name_fp;
    char bot_name_filename[256];
@@ -70,14 +70,14 @@ void BotNameInit( void )
    char name_buffer[80];
    int length, index;
 
-   UTIL_BuildFileName(bot_name_filename, "bot_names.txt", NULL);
+   UTIL_BuildFileName(bot_name_filename, "bot_names.txt", nullptr);
 
    bot_name_fp = fopen(bot_name_filename, "r");
 
-   if (bot_name_fp != NULL)
+   if (bot_name_fp != nullptr)
    {
       while ((number_names < MAX_BOT_NAMES) &&
-             (fgets(name_buffer, 80, bot_name_fp) != NULL))
+             (fgets(name_buffer, 80, bot_name_fp) != nullptr))
       {
          length = strlen(name_buffer);
 
@@ -177,7 +177,7 @@ void BotCreate( edict_t *pPlayer, const char *pname, const char *pskill )
    int skill;
    int i, j, length;
 
-   if ((pname != NULL) && (*pname != 0))
+   if ((pname != nullptr) && (*pname != 0))
    {
       strncpy( c_name, pname, BOT_NAME_LEN - 1 );
       c_name[BOT_NAME_LEN] = 0;  // make sure c_name is null terminated
@@ -192,7 +192,7 @@ void BotCreate( edict_t *pPlayer, const char *pname, const char *pskill )
 
    skill = 0;
 
-   if ((pskill != NULL) && (*pskill != 0))
+   if ((pskill != nullptr) && (*pskill != 0))
       skill = atoi(pskill);
          
    if (skill < 1 || skill > 5)
@@ -234,9 +234,9 @@ void BotCreate( edict_t *pPlayer, const char *pname, const char *pskill )
          return;
       }
 
-      if (BotEnt->pvPrivateData != NULL)
+      if (BotEnt->pvPrivateData != nullptr)
          FREE_PRIVATE(BotEnt);
-      BotEnt->pvPrivateData = NULL;
+      BotEnt->pvPrivateData = nullptr;
       BotEnt->v.frags = 0;
 
       // create the player entity by calling MOD's player function
@@ -452,7 +452,7 @@ void BotMoveToPosition(bot_t *pBot, Vector const vecPos)
 {
    edict_t *pEdict = pBot->pEdict;
 
-   if (pBot->pBotEnemy == NULL)
+   if (pBot->pBotEnemy == nullptr)
    {
       // No enemy, just head towards the position
       pBot->vecLookAt = vecPos;
@@ -472,17 +472,17 @@ void BotMoveToPosition(bot_t *pBot, Vector const vecPos)
 edict_t *BotFindEnemy( bot_t *pBot )
 {
    Vector vecEnd;
-   edict_t *pNewEnemy = NULL;
+   edict_t *pNewEnemy = nullptr;
 
    edict_t *pEdict = pBot->pEdict;
 
-   if (pBot->pBotEnemy != NULL)  // does the bot already have an enemy?
+   if (pBot->pBotEnemy != nullptr)  // does the bot already have an enemy?
    {
       vecEnd = pBot->pBotEnemy->v.origin + pBot->pBotEnemy->v.view_ofs;
 
       // if the enemy is dead?
       if (!IsAlive(pBot->pBotEnemy))  // is the enemy dead?, assume bot killed it
-         pBot->pBotEnemy = NULL; // don't have an enemy anymore so null out the pointer...
+         pBot->pBotEnemy = nullptr; // don't have an enemy anymore so null out the pointer...
       else if (FInViewCone( &vecEnd, pEdict ) && FVisible( vecEnd, pEdict ) &&
          fabs(pBot->pEdict->v.origin.z - pBot->pBotEnemy->v.origin.z) < 72)
          return pBot->pBotEnemy; // if enemy is still visible and in field of view, keep it
@@ -519,7 +519,7 @@ edict_t *BotFindEnemy( bot_t *pBot )
          // see if bot can see the player...
          if (FInViewCone( &vecEnd, pEdict ) && FVisible( vecEnd, pEdict ))
          {
-            float distance = (pPlayer->v.origin - pEdict->v.origin).Length();
+	         const float distance = (pPlayer->v.origin - pEdict->v.origin).Length();
             if (distance < nearestdistance)
             {
                nearestdistance = distance;
@@ -539,14 +539,14 @@ void BotShootAtEnemy( bot_t *pBot )
       return; // no enemy, no need to shoot
 
    // is the bot's crosshair on the enemy yet?
-   Vector vecDir = (pBot->vecLookAt - GetGunPosition(pBot->pEdict)).Normalize();
+   const Vector vecDir = (pBot->vecLookAt - GetGunPosition(pBot->pEdict)).Normalize();
    UTIL_MakeVectors(pEdict->v.v_angle);
 
    if (DotProduct(gpGlobals->v_forward, vecDir) > 0.9)
    {
       // we will likely hit the enemy, FIRE!!
       // TODO: bounce/teleport attack
-      float distance = (pEdict->v.origin - pBot->pBotEnemy->v.origin).Length();
+      const float distance = (pEdict->v.origin - pBot->pBotEnemy->v.origin).Length();
       // if enemy is near enough, we have enough discs,
       // and we haven't "Power Shot" powerup...
       if (distance < 128 && pBot->disc_number >= 3 && !(pBot->m_iPowerups & POW_HARD)
@@ -638,7 +638,7 @@ void BotThink( bot_t *pBot )
 
       recent_bot_whine[0] = whine_index;
 
-      if (strstr(bot_whine[whine_index], "%s") != NULL)  // is "%s" in whine text?
+      if (strstr(bot_whine[whine_index], "%s") != nullptr)  // is "%s" in whine text?
          sprintf(msg, bot_whine[whine_index], STRING(pBot->killer_edict->v.netname));
       else
          sprintf(msg, bot_whine[whine_index]);
@@ -654,7 +654,7 @@ void BotThink( bot_t *pBot )
          BotSpawnInit(pBot);
 
          // did another player kill this bot AND bot whine messages loaded
-         if (pBot->killer_edict != NULL && whine_count > 0)
+         if (pBot->killer_edict != nullptr && whine_count > 0)
          {
             if (RANDOM_LONG(1, 100) <= bot_chat_percent)
             {
@@ -697,9 +697,9 @@ void BotThink( bot_t *pBot )
    if (b_botdontshoot == 0)
       pBot->pBotEnemy = BotFindEnemy( pBot );
    else
-      pBot->pBotEnemy = NULL;  // clear enemy pointer (no ememy for you!)
+      pBot->pBotEnemy = nullptr;  // clear enemy pointer (no ememy for you!)
 
-   if (pBot->pBotEnemy != NULL)  // does an enemy exist?
+   if (pBot->pBotEnemy != nullptr)  // does an enemy exist?
    {
       // Aim at the enemy
       pBot->vecLookAt = pBot->pBotEnemy->v.origin;
@@ -717,12 +717,12 @@ void BotThink( bot_t *pBot )
          int iCount = 0;
          Vector vecWPT[8];
 
-         edict_t *p = NULL;
-         while ((p = UTIL_FindEntityInSphere( p, pBot->pEdict->v.origin, 240.0 )) != NULL)
+         edict_t *p = nullptr;
+         while ((p = UTIL_FindEntityInSphere( p, pBot->pEdict->v.origin, 240.0f )) != nullptr)
          {
             if (strcmp(STRING(p->v.classname), "trigger_jump") == 0)
             {
-               Vector v_dest = VecBModelOrigin(p);
+	            const Vector v_dest = VecBModelOrigin(p);
                if (fabs(pEdict->v.absmin.z - p->v.absmax.z) < 32 &&
                   !IsDeadlyDrop(pBot, v_dest))
                {
@@ -742,7 +742,7 @@ void BotThink( bot_t *pBot )
       {
          for (int i = 1; i <= gpGlobals->maxClients; i++)
          {
-            edict_t *pPlayer = INDEXENT(i);
+	         const edict_t *pPlayer = INDEXENT(i);
 
             if (FNullEnt(pPlayer))
                continue;
