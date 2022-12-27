@@ -15,7 +15,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -43,7 +43,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <AdditionalIncludeDirectories>..\hlsdk-2.3-p4\multiplayer\common;..\hlsdk-2.3-p4\multiplayer\ricochet\dlls;..\hlsdk-2.3-p4\multiplayer\ricochet\pm_shared;..\hlsdk-2.3-p4\multiplayer\engine;..\metamod-p-37\metamod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\hlsdk-2.3-p4\multiplayer\common;..\hlsdk-2.3-p4\multiplayer\ricochet\dlls;..\hlsdk-2.3-p4\multiplayer\ricochet\pm_shared;..\hlsdk-2.3-p4\multiplayer\engine;..\metamod-p\metamod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Release\bot.pch</PrecompiledHeaderOutputFile>
