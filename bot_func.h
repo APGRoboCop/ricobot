@@ -55,7 +55,7 @@ edict_t *UTIL_FindEntityInSphere( edict_t *pentStart, const Vector &vecCenter, f
 edict_t *UTIL_FindEntityByString( edict_t *pentStart, const char *szKeyword, const char *szValue );
 edict_t *UTIL_FindEntityByClassname( edict_t *pentStart, const char *szName );
 edict_t *UTIL_FindEntityByTargetname( edict_t *pentStart, const char *szName );
-void ClientPrint( edict_t *pEdict, int msg_dest, const char *msg_name);
+void ClientPrint( edict_t *pEntity, int msg_dest, const char *msg_name);
 void UTIL_SayText( const char *pText, edict_t *pEdict );
 void UTIL_HostSay( edict_t *pEntity, char *message );
 int UTIL_GetBotIndex(edict_t *pEdict);

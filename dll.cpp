@@ -220,7 +220,7 @@ int DispatchSpawn( edict_t *pent )
          prev_num_bots = num_bots;
          num_bots = 0;
 
-         bot_check_time = gpGlobals->time + 30.0;
+         bot_check_time = gpGlobals->time + 30.0f;
       }
    }
 
@@ -242,7 +242,7 @@ BOOL ClientConnect( edict_t *pEntity, const char *pszName, const char *pszAddres
       if (strcmp(pszAddress, "127.0.0.1") != 0)
       {
          // don't try to add bots for 60 seconds, give client time to get added
-         bot_check_time = gpGlobals->time + 60.0;
+         bot_check_time = gpGlobals->time + 60.0f;
 
          for (i = 0; i < 32; i++)
          {
@@ -307,7 +307,7 @@ void ClientCommand( edict_t *pEntity )
       {
          BotCreate( pEntity, arg1, arg2 );
 
-         bot_check_time = gpGlobals->time + 5.0;
+         bot_check_time = gpGlobals->time + 5.0f;
 
          RETURN_META(MRES_SUPERCEDE);
       }
@@ -416,9 +416,9 @@ void StartFrame()
             }
 
             if (IS_DEDICATED_SERVER())
-               bot_cfg_pause_time = gpGlobals->time + 5.0;
+               bot_cfg_pause_time = gpGlobals->time + 5.0f;
             else
-               bot_cfg_pause_time = gpGlobals->time + 20.0;
+               bot_cfg_pause_time = gpGlobals->time + 20.0f;
          }
          else
          {
@@ -441,7 +441,7 @@ void StartFrame()
                }
 
                // check for any bots that were very recently kicked...
-               if ((bots[index].kick_time + 5.0) > previous_time)
+               if ((bots[index].kick_time + 5.0f) > previous_time)
                {
                   bots[index].respawn_state = RESPAWN_NEED_TO_RESPAWN;
                   count++;
@@ -452,22 +452,22 @@ void StartFrame()
 
             // set the respawn time
             if (IS_DEDICATED_SERVER())
-               respawn_time = gpGlobals->time + 5.0;
+               respawn_time = gpGlobals->time + 5.0f;
             else
-               respawn_time = gpGlobals->time + 20.0;
+               respawn_time = gpGlobals->time + 20.0f;
          }
 
-         bot_check_time = gpGlobals->time + 30.0;
+         bot_check_time = gpGlobals->time + 30.0f;
       }
 
       if (!IS_DEDICATED_SERVER())
       {
          if ((listenserver_edict != nullptr) && (welcome_sent == FALSE) &&
-             (welcome_time < 1.0))
+             (welcome_time < 1.0f))
          {
             // are they out of observer mode yet?
             if (IsAlive(listenserver_edict))
-               welcome_time = gpGlobals->time + 5.0;  // welcome in 5 seconds
+               welcome_time = gpGlobals->time + 5.0f;  // welcome in 5 seconds
          }
 
          if ((welcome_time > 0.0) && (welcome_time < gpGlobals->time) &&
@@ -730,8 +730,8 @@ void ProcessBotCfgFile()
       // have to delay here or engine gives "Tried to write to
       // uninitialized sizebuf_t" error and crashes...
 
-      bot_cfg_pause_time = gpGlobals->time + 2.0;
-      bot_check_time = gpGlobals->time + 5.0;
+      bot_cfg_pause_time = gpGlobals->time + 2.0f;
+      bot_check_time = gpGlobals->time + 5.0f;
 
       return;
    }

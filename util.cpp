@@ -236,7 +236,7 @@ bot_t *UTIL_GetBotPointer(edict_t *pEdict)
 bool IsAlive(edict_t *pEdict)
 {
    return (pEdict->v.deadflag == DEAD_NO && pEdict->v.health > 0 &&
-           !(pEdict->v.flags & FL_NOTARGET) && pEdict->v.takedamage != 0);
+           !(pEdict->v.flags & FL_NOTARGET) && pEdict->v.takedamage != 0.0f);
 }
 
 bool FInViewCone(Vector *pOrigin, edict_t *pEdict)
@@ -251,7 +251,7 @@ bool FInViewCone(Vector *pOrigin, edict_t *pEdict)
 
    flDot = DotProduct (vec2LOS , gpGlobals->v_forward.Make2D() );
 
-   if ( flDot > 0.50 )  // 60 degree field of view 
+   if ( flDot > 0.50f )  // 60 degree field of view 
       return TRUE;
    else
       return FALSE;

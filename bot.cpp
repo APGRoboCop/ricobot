@@ -379,7 +379,7 @@ void BotChangeYaw( bot_t *pBot, float speed )
 
 // The next 2 functions are taken from POD-Bot source
 
-bool IsDeadlyDrop(bot_t *pBot, Vector vecTargetPos)
+bool IsDeadlyDrop(bot_t *pBot, const Vector& vecTargetPos)
 {
    // Returns if given location would hurt Bot with falling damage
 
@@ -397,24 +397,24 @@ bool IsDeadlyDrop(bot_t *pBot, Vector vecTargetPos)
    Vector v_check = vecBot;
    Vector v_down = vecBot;
 
-   v_down.z = v_down.z - 1000.0; // straight down 1000 units
+   v_down.z = v_down.z - 1000.0f; // straight down 1000 units
 
    TRACE_HULL(v_check, v_down, ignore_monsters, head_hull, pEdict, &tr);
 
    // We're not on ground anymore ?
-   if (tr.flFraction > 0.036)
-      tr.flFraction = 0.036;
+   if (tr.flFraction > 0.036f)
+      tr.flFraction = 0.036f;
 
    last_height = tr.flFraction * 1000.0; // height from ground
    distance = (vecTargetPos - v_check).Length (); // distance from goal
 
-   while (distance > 16.0)
+   while (distance > 16.0f)
    {
       // move 10 units closer to the goal...
-      v_check = v_check + (v_direction * 16.0);
+      v_check = v_check + (v_direction * 16.0f);
 
       v_down = v_check;
-      v_down.z = v_down.z - 1000.0; // straight down 1000 units
+      v_down.z = v_down.z - 1000.0f; // straight down 1000 units
 
       TRACE_HULL(v_check, v_down, ignore_monsters, head_hull, pEdict, &tr);
 
@@ -422,7 +422,7 @@ bool IsDeadlyDrop(bot_t *pBot, Vector vecTargetPos)
       if (tr.fStartSolid)
          return FALSE;
 
-      height = tr.flFraction * 1000.0; // height from ground
+      height = tr.flFraction * 1000.0f; // height from ground
 
       // Drops more than 100 Units ?
       if (last_height < height - 100)
@@ -437,7 +437,7 @@ bool IsDeadlyDrop(bot_t *pBot, Vector vecTargetPos)
 }
 
 // Adjust all Bot Body and View Angles to face an absolute Vector
-void BotFacePosition(bot_t *pBot, Vector const vecPos)
+void BotFacePosition(bot_t *pBot, Vector const& vecPos)
 {
    edict_t *pEdict = pBot->pEdict;
    Vector vecDirection = UTIL_VecToAngles(vecPos - GetGunPosition(pEdict));
@@ -448,7 +448,7 @@ void BotFacePosition(bot_t *pBot, Vector const vecPos)
    pEdict->v.idealpitch = vecDirection.x;
 }
 
-void BotMoveToPosition(bot_t *pBot, Vector const vecPos)
+void BotMoveToPosition(bot_t *pBot, Vector const& vecPos)
 {
    edict_t *pEdict = pBot->pEdict;
 
@@ -488,7 +488,7 @@ edict_t *BotFindEnemy( bot_t *pBot )
          return pBot->pBotEnemy; // if enemy is still visible and in field of view, keep it
    }
 
-   float nearestdistance = 2500;
+   float nearestdistance = 2500.0f;
 
    // search the world for players...
    for (int i = 1; i <= gpGlobals->maxClients; i++)
