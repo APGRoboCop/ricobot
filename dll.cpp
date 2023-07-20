@@ -207,7 +207,7 @@ int DispatchSpawn( edict_t *pent )
 {
    if (gpGlobals->deathmatch)
    {
-      char *pClassname = const_cast<char *>(STRING(pent->v.classname));
+	   const char *pClassname = const_cast<char *>(STRING(pent->v.classname));
 
       if (strcmp(pClassname, "worldspawn") == 0)
       {
@@ -578,11 +578,11 @@ void StartFrame()
                {
                   spawn_time_reset = TRUE;
 
-                  if (respawn_time >= 1.0f)
-                     respawn_time = fmin(respawn_time, gpGlobals->time + 1.0f);
+                  if (respawn_time >= 1.0)
+                     respawn_time = fmin(respawn_time, gpGlobals->time + 1.0);
 
                   if (bot_cfg_pause_time >= 1.0)
-                     bot_cfg_pause_time = fmin(bot_cfg_pause_time, gpGlobals->time + 1.0f);
+                     bot_cfg_pause_time = fmin(bot_cfg_pause_time, gpGlobals->time + 1.0);
                }
             }
          }

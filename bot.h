@@ -41,6 +41,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <cstring>
 #include <cctype>
+#include <cmath>
 
 #include "extdll.h"
 #include "dllapi.h"

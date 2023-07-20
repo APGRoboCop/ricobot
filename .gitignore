@@ -63,3 +63,5 @@ Temporary Items
 bot.cbp
 Release/*
 *.cbp
+apg-load
+build/*

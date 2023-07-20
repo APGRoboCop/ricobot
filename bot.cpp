@@ -48,8 +48,8 @@ char bot_names[MAX_BOT_NAMES][BOT_NAME_LEN+1];
 void BotSpawnInit( bot_t *pBot )
 {
    //Fix by Cheeseh (RCBot)
-   float fUpdateTime = gpGlobals->time;
-   float fLastRunPlayerMoveTime = gpGlobals->time - 0.1f;
+   //float fUpdateTime = gpGlobals->time;
+   //float fLastRunPlayerMoveTime = gpGlobals->time - 0.1f;
 	
    //pBot->msecnum = 0;
    //pBot->msecdel = 0.0;
@@ -59,7 +59,7 @@ void BotSpawnInit( bot_t *pBot )
    pBot->f_bot_see_enemy_time = gpGlobals->time;
    pBot->f_bot_find_enemy_time = gpGlobals->time;
    pBot->b_bot_say_killed = FALSE;
-   pBot->f_bot_say_killed = 0.0;
+   pBot->f_bot_say_killed = 0.0f;
 }
 
 void BotNameInit()
@@ -384,7 +384,7 @@ bool IsDeadlyDrop(bot_t *pBot, const Vector& vecTargetPos)
    // Returns if given location would hurt Bot with falling damage
 
    edict_t *pEdict = pBot->pEdict;
-   Vector vecBot = pEdict->v.origin;
+   const Vector vecBot = pEdict->v.origin;
    TraceResult tr;
    float height, last_height, distance;
 
@@ -393,7 +393,7 @@ bool IsDeadlyDrop(bot_t *pBot, const Vector& vecTargetPos)
    vecMove.z = 0; // reset roll to 0 (straight up and down)
    MAKE_VECTORS(vecMove);
 
-   Vector v_direction = (vecTargetPos - vecBot).Normalize (); // 1 unit long
+   const Vector v_direction = (vecTargetPos - vecBot).Normalize (); // 1 unit long
    Vector v_check = vecBot;
    Vector v_down = vecBot;
 
@@ -405,7 +405,7 @@ bool IsDeadlyDrop(bot_t *pBot, const Vector& vecTargetPos)
    if (tr.flFraction > 0.036f)
       tr.flFraction = 0.036f;
 
-   last_height = tr.flFraction * 1000.0; // height from ground
+   last_height = tr.flFraction * 1000.0f; // height from ground
    distance = (vecTargetPos - v_check).Length (); // distance from goal
 
    while (distance > 16.0f)
@@ -450,7 +450,7 @@ void BotFacePosition(bot_t *pBot, Vector const& vecPos)
 
 void BotMoveToPosition(bot_t *pBot, Vector const& vecPos)
 {
-   edict_t *pEdict = pBot->pEdict;
+	const edict_t *pEdict = pBot->pEdict;
 
    if (pBot->pBotEnemy == nullptr)
    {
@@ -461,9 +461,9 @@ void BotMoveToPosition(bot_t *pBot, Vector const& vecPos)
    else
    {
       // Otherwise we need to do strafing...
-      float f1 = pEdict->v.angles.y - VEC_TO_YAW(vecPos - pEdict->v.origin);
-      float flCos = cos(f1 * M_PI / 180);
-      float flSin = sin(f1 * M_PI / 180);
+      const float f1 = pEdict->v.angles.y - VEC_TO_YAW(vecPos - pEdict->v.origin);
+      const float flCos = cos(f1 * M_PI / 180);
+      const float flSin = sin(f1 * M_PI / 180);
       pBot->f_move_speed = pEdict->v.maxspeed * flCos;
       pBot->f_sidemove_speed = pEdict->v.maxspeed * flSin;
    }
@@ -484,7 +484,7 @@ edict_t *BotFindEnemy( bot_t *pBot )
       if (!IsAlive(pBot->pBotEnemy))  // is the enemy dead?, assume bot killed it
          pBot->pBotEnemy = nullptr; // don't have an enemy anymore so null out the pointer...
       else if (FInViewCone( &vecEnd, pEdict ) && FVisible( vecEnd, pEdict ) &&
-         fabs(pBot->pEdict->v.origin.z - pBot->pBotEnemy->v.origin.z) < 72)
+	      std::fabs(pBot->pEdict->v.origin.z - pBot->pBotEnemy->v.origin.z) < 72)
          return pBot->pBotEnemy; // if enemy is still visible and in field of view, keep it
    }
 
@@ -511,7 +511,7 @@ edict_t *BotFindEnemy( bot_t *pBot )
             continue; // skip this player is he is in a different arena
 
          // see if the enemy is at the same height as the bot
-         if (fabs(pBot->pEdict->v.origin.z - pPlayer->v.origin.z) >= 72)
+         if (std::fabs(pBot->pEdict->v.origin.z - pPlayer->v.origin.z) >= 72)
             continue;
 
          vecEnd = pPlayer->v.origin + pPlayer->v.view_ofs;
@@ -542,7 +542,7 @@ void BotShootAtEnemy( bot_t *pBot )
    const Vector vecDir = (pBot->vecLookAt - GetGunPosition(pBot->pEdict)).Normalize();
    UTIL_MakeVectors(pEdict->v.v_angle);
 
-   if (DotProduct(gpGlobals->v_forward, vecDir) > 0.9)
+   if (DotProduct(gpGlobals->v_forward, vecDir) > 0.9f)
    {
       // we will likely hit the enemy, FIRE!!
       // TODO: bounce/teleport attack
@@ -680,9 +680,9 @@ void BotThink( bot_t *pBot )
       pBot->need_to_initialize = TRUE;
 
    // Get Speed Multiply Factor by dividing Target FPS by real FPS
-   float fSpeedFactor = CVAR_GET_FLOAT("fps_max") / (1.0 / gpGlobals->frametime);
+   float fSpeedFactor = CVAR_GET_FLOAT("fps_max") / (1.0f / gpGlobals->frametime);
    if (fSpeedFactor < 1)
-      fSpeedFactor = 1.0;
+      fSpeedFactor = 1.0f;
 
    BotChangeYaw(pBot, pEdict->v.yaw_speed * fSpeedFactor);
    BotChangePitch(pBot, pEdict->v.pitch_speed * fSpeedFactor);
@@ -723,7 +723,7 @@ void BotThink( bot_t *pBot )
             if (strcmp(STRING(p->v.classname), "trigger_jump") == 0)
             {
 	            const Vector v_dest = VecBModelOrigin(p);
-               if (fabs(pEdict->v.absmin.z - p->v.absmax.z) < 32 &&
+               if (std::fabs(pEdict->v.absmin.z - p->v.absmax.z) < 32 &&
                   !IsDeadlyDrop(pBot, v_dest))
                {
                   vecWPT[iCount++] = v_dest;
@@ -757,7 +757,7 @@ void BotThink( bot_t *pBot )
             Vector2D vecPlayer = (pPlayer->v.origin - pEdict->v.origin).Make2D().Normalize();
             Vector2D vecTarget = (pBot->vecTargetPos - pEdict->v.origin).Make2D().Normalize();
 
-            if (DotProduct(vecPlayer, vecTarget) > 0.9)
+            if (DotProduct(vecPlayer, vecTarget) > 0.9f)
             {
                pBot->vecTargetPos = Vector(0,0,0);
                break;
