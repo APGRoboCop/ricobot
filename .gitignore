@@ -65,3 +65,4 @@ Release/*
 *.cbp
 apg-load
 build/*
+build_linux/*

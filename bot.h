@@ -37,7 +37,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef BOT_H
 #define BOT_H
 
+#ifdef _WIN32
 #pragma warning (disable : 4710) // function not inlined
+#endif
 
 #include <cstring>
 #include <cctype>
@@ -51,8 +53,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cbase.h"
 #include "entity_state.h"
 
-#define BOT_PITCH_SPEED 20
-#define BOT_YAW_SPEED 20
+#define BOT_PITCH_SPEED 30
+#define BOT_YAW_SPEED 30
 
 #define RESPAWN_IDLE             1
 #define RESPAWN_NEED_TO_RESPAWN  2
