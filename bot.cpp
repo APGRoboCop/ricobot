@@ -288,7 +288,7 @@ void BotChangePitch( bot_t *pBot, float speed )
    ideal = pEdict->v.idealpitch;
 
    // find the difference in the current and ideal angle
-   diff = fabs(current - ideal);
+   diff = std::fabs(current - ideal);
 
    // check if difference is less than the max degrees per turn
    if (diff < speed)
@@ -341,7 +341,7 @@ void BotChangeYaw( bot_t *pBot, float speed )
    ideal = pEdict->v.ideal_yaw;
 
    // find the difference in the current and ideal angle
-   diff = fabs(current - ideal);
+   diff = std::fabs(current - ideal);
 
    // check if difference is less than the max degrees per turn
    if (diff < speed)

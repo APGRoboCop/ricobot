@@ -3,7 +3,7 @@
 OBJ = bot.o bot_client.o dll.o engine.o h_export.o util.o
 
 CCOPT = -DNDEBUG -mtune=generic -march=i686 -O2 -m32 \
-		-mmmx -msse -msse2 -mfpmath=sse -s -funsafe-math-optimizations \
+		-mmmx -msse -msse2 -mfpmath=sse -funsafe-math-optimizations \
 		-Wno-attributes -Wno-write-strings -static-libgcc
 
 #CCDEBUG = -ggdb3 -D_DEBUG

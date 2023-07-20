@@ -295,7 +295,7 @@ Vector GetGunPosition(edict_t *pEdict)
 
 Vector VecBModelOrigin(edict_t *pEdict)
 {
-   return pEdict->v.absmin + (pEdict->v.size * 0.5);
+   return pEdict->v.absmin + (pEdict->v.size * 0.5f);
 }
 
 
@@ -318,15 +318,15 @@ void UTIL_BuildFileName(char *filename, char *arg1, char *arg2)
 
 void ClampAngle(float &angle)
 {
-   if (angle >= 180.0f)
-      angle -= 360.0f * (angle / 360.0f + 0.5f);
-   if (angle < 180.0f)
-      angle += 360.0f * (-angle / 360.0f + 0.5f);
+    if (angle >= 180)
+        angle -= 360 * static_cast<int>(angle / 360 + 0.5f);
+    if (angle < 180)
+        angle += 360 * static_cast<int>(-angle / 360 + 0.5f);
 }
 
 void ClampAngles(Vector &angles)
 {
    ClampAngle(angles.x);
    ClampAngle(angles.y);
-   angles.z = 0.0;
+   angles.z = 0.0f;
 }
