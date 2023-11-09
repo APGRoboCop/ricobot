@@ -578,11 +578,11 @@ void StartFrame()
                {
                   spawn_time_reset = TRUE;
 
-                  if (respawn_time >= 1.0)
-                     respawn_time = fmin(respawn_time, gpGlobals->time + 1.0);
+                  if (respawn_time >= 1.0f)
+                     respawn_time = std::fmin(respawn_time, gpGlobals->time + 1.0f);
 
                   if (bot_cfg_pause_time >= 1.0)
-                     bot_cfg_pause_time = fmin(bot_cfg_pause_time, gpGlobals->time + 1.0);
+                     bot_cfg_pause_time = std::fmin(bot_cfg_pause_time, gpGlobals->time + 1.0f);
                }
             }
          }
@@ -738,17 +738,17 @@ void ProcessBotCfgFile()
 
    if (strcmp(cmd, "botskill") == 0)
    {
-	   const int temp = atoi(arg1);
+	   const int temp = std::atoi(arg1);
 
       if ((temp >= 1) && (temp <= 5))
-         default_bot_skill = atoi( arg1 );  // set default bot skill level
+         default_bot_skill = std::atoi( arg1 );  // set default bot skill level
 
       return;
    }
 
    if (strcmp(cmd, "observer") == 0)
    {
-	   const int temp = atoi(arg1);
+	   const int temp = std::atoi(arg1);
 
       if (temp)
          b_observer_mode = TRUE;
@@ -760,7 +760,7 @@ void ProcessBotCfgFile()
 
    if (strcmp(cmd, "botdontshoot") == 0)
    {
-	   const int temp = atoi(arg1);
+	   const int temp = std::atoi(arg1);
 
       if (temp)
          b_botdontshoot = TRUE;
@@ -772,7 +772,7 @@ void ProcessBotCfgFile()
 
    if (strcmp(cmd, "min_bots") == 0)
    {
-      min_bots = atoi( arg1 );
+      min_bots = std::atoi( arg1 );
 
       if ((min_bots < 0) || (min_bots > 31))
          min_bots = 1;
@@ -788,7 +788,7 @@ void ProcessBotCfgFile()
 
    if (strcmp(cmd, "max_bots") == 0)
    {
-      max_bots = atoi( arg1 );
+      max_bots = std::atoi( arg1 );
 
       if ((max_bots < 0) || (max_bots > 31)) 
          max_bots = 1;
@@ -804,16 +804,16 @@ void ProcessBotCfgFile()
 
    if (strcmp(cmd, "pause") == 0)
    {
-      bot_cfg_pause_time = gpGlobals->time + atoi( arg1 );
+      bot_cfg_pause_time = gpGlobals->time + std::atoi( arg1 );
       return;
    }
 
    if (strcmp(cmd, "bot_chat_percent") == 0)
    {
-	   const int temp = atoi(arg1);
+	   const int temp = std::atoi(arg1);
 
       if ((temp >= 0) && (temp <= 100))
-         bot_chat_percent = atoi( arg1 );  // set bot chat percent
+         bot_chat_percent = std::atoi( arg1 );  // set bot chat percent
 
       return;
    }

@@ -462,8 +462,8 @@ void BotMoveToPosition(bot_t *pBot, Vector const& vecPos)
    {
       // Otherwise we need to do strafing...
       const float f1 = pEdict->v.angles.y - VEC_TO_YAW(vecPos - pEdict->v.origin);
-      const float flCos = cos(f1 * M_PI / 180);
-      const float flSin = sin(f1 * M_PI / 180);
+      const float flCos = std::cos(f1 * M_PI / 180);
+      const float flSin = std::sin(f1 * M_PI / 180);
       pBot->f_move_speed = pEdict->v.maxspeed * flCos;
       pBot->f_sidemove_speed = pEdict->v.maxspeed * flSin;
    }

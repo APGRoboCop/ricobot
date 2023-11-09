@@ -316,12 +316,12 @@ void UTIL_BuildFileName(char *filename, char *arg1, char *arg2)
    }
 }
 
-void ClampAngle(float &angle)
+void ClampAngle(float& angle)
 {
-    if (angle >= 180)
-        angle -= 360 * static_cast<int>(angle / 360 + 0.5f);
-    if (angle < 180)
-        angle += 360 * static_cast<int>(-angle / 360 + 0.5f);
+    if (angle >= 180.0f)
+        angle -= 360.0f * std::round(angle / 360.0f);
+    if (angle < -180.0f)
+        angle += 360.0f * std::round(-angle / 360.0f);
 }
 
 void ClampAngles(Vector &angles)
