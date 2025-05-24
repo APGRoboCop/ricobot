@@ -32,8 +32,8 @@ if builder.cxx.target.platform == 'linux':
   # Linux compiler C flags
   builder.cxx.cflags += [
     '-pipe',
-	'-fPIC',
-	'-msse2',
+    '-fPIC',
+    '-msse4.2',
     '-fno-strict-aliasing',
     '-Wall',
     '-Werror',
@@ -70,10 +70,10 @@ elif builder.cxx.target.platform == 'windows':
   # Windows compiler C++ flags
   builder.cxx.cxxflags += [
     '/std:c++17',
-	'/arch:SSE2',
+    '/arch:SSE2',
     '/fp:precise',
-	'/Qspectre',
-	'/EHsc'
+    '/Qspectre',
+    '/EHsc'
   ]
   # Windows linker flags
   builder.cxx.linkflags += [
@@ -102,10 +102,12 @@ if builder.options.optimize == '1':
     # Linux optimization flags
     builder.cxx.cflags += ['-O2']
   elif builder.cxx.target.platform == 'windows':
-    # Windows optimization flags
-    builder.cxx.cflags += ['/Ox', '/Zo']
+    # Windows optimization flags - /Ob3 needs to be after /Ox, enables aggressive function inling -caxanga334
+    builder.cxx.cflags += ['/O2', '/Zo', '/Ob3', '/GF']
     # Windows optimization link flags
     builder.cxx.linkflags += ['/OPT:ICF', '/OPT:REF']
+    # This needs to be after our optimization flags which could otherwise disable it.
+    builder.cxx.cflags += ['/Oy-']
 
 # Compiler options for debugging ( --enable-debug )
 if builder.options.debug == '1':

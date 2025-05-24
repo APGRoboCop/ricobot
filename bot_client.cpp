@@ -47,30 +47,30 @@ void BotClient_Ricochet_DeathMsg(void *p, int bot_index)
 
    if (state == 0)
    {
-      state++;
-      killer_index = *static_cast<int *>(p);  // ENTINDEX() of killer
+	  state++;
+	  killer_index = *static_cast<int *>(p);  // ENTINDEX() of killer
    }
    else if (state == 1)
    {
-      state++;
-      victim_index = *static_cast<int *>(p);  // ENTINDEX() of victim
+	  state++;
+	  victim_index = *static_cast<int *>(p);  // ENTINDEX() of victim
    }
    else if (state == 2)
    {
-      state = 0;
+	  state = 0;
 
-      victim_edict = INDEXENT(victim_index);
-      index = UTIL_GetBotIndex(victim_edict);
+	  victim_edict = INDEXENT(victim_index);
+	  index = UTIL_GetBotIndex(victim_edict);
 
-      // is this message about a bot being killed?
-      if (index != -1)
-      {
-         // bot killed by world (worldspawn) or killed self?
-         if (killer_index == 0 || killer_index == victim_index)
-            bots[index].killer_edict = nullptr;
-         else // store edict of player that killed this bot...
-            bots[index].killer_edict = INDEXENT(killer_index);
-      }
+	  // is this message about a bot being killed?
+	  if (index != -1)
+	  {
+		 // bot killed by world (worldspawn) or killed self?
+		 if (killer_index == 0 || killer_index == victim_index)
+			bots[index].killer_edict = nullptr;
+		 else // store edict of player that killed this bot...
+			bots[index].killer_edict = INDEXENT(killer_index);
+	  }
    }
 }
 
@@ -79,11 +79,11 @@ void BotClient_Ricochet_AmmoX(void *p, int bot_index)
 {
    static int state = 0;
    if (state == 0)
-      state++;
+	  state++;
    else if (state == 1)
    {
-      state = 0;
-      bots[bot_index].disc_number = *static_cast<int *>(p);  // store it away
+	  state = 0;
+	  bots[bot_index].disc_number = *static_cast<int *>(p);  // store it away
    }
 }
 

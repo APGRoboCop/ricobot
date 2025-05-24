@@ -50,12 +50,10 @@ void UTIL_MakeVectors( const Vector &vecAngles )
 
 edict_t *UTIL_FindEntityInSphere( edict_t *pentStart, const Vector &vecCenter, float flRadius )
 {
-   edict_t  *pentEntity;
-
-   pentEntity = FIND_ENTITY_IN_SPHERE( pentStart, vecCenter, flRadius);
+	edict_t* pentEntity = FIND_ENTITY_IN_SPHERE(pentStart, vecCenter, flRadius);
 
    if (!FNullEnt(pentEntity))
-      return pentEntity;
+	  return pentEntity;
 
    return nullptr;
 }
@@ -63,12 +61,10 @@ edict_t *UTIL_FindEntityInSphere( edict_t *pentStart, const Vector &vecCenter, f
 
 edict_t *UTIL_FindEntityByString( edict_t *pentStart, const char *szKeyword, const char *szValue )
 {
-   edict_t *pentEntity;
-
-   pentEntity = FIND_ENTITY_BY_STRING( pentStart, szKeyword, szValue );
+	edict_t* pentEntity = FIND_ENTITY_BY_STRING(pentStart, szKeyword, szValue);
 
    if (!FNullEnt(pentEntity))
-      return pentEntity;
+	  return pentEntity;
    return nullptr;
 }
 
@@ -104,7 +100,7 @@ void UTIL_SetOrigin( entvars_t *pev, const Vector &vecOrigin )
 void ClientPrint( edict_t *pEntity, int msg_dest, const char *msg_name)
 {
    if (gmsgTextMsg == 0)
-      gmsgTextMsg = REG_USER_MSG( "TextMsg", -1 );
+	  gmsgTextMsg = REG_USER_MSG( "TextMsg", -1 );
 
    MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgTextMsg, nullptr, pEntity );
    WRITE_BYTE( msg_dest );
@@ -115,7 +111,7 @@ void ClientPrint( edict_t *pEntity, int msg_dest, const char *msg_name)
 void UTIL_SayText( const char *pText, edict_t *pEdict )
 {
    if (gmsgSayText == 0)
-      gmsgSayText = REG_USER_MSG( "SayText", -1 );
+	  gmsgSayText = REG_USER_MSG( "SayText", -1 );
 
    MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, pEdict );
    WRITE_BYTE( ENTINDEX(pEdict) );
@@ -126,30 +122,28 @@ void UTIL_SayText( const char *pText, edict_t *pEdict )
 
 void UTIL_HostSay( edict_t *pEntity, char *message )
 {
-   int   j;
-   char  text[128];
+	char  text[128];
    char *pc;
-   edict_t *client;
 
    // make sure the text has content
    for ( pc = message; pc != nullptr && *pc != 0; pc++ )
    {
-      if ( isprint( *pc ) && !isspace( *pc ) )
-      {
-         pc = nullptr;   // we've found an alphanumeric character,  so text is valid
-         break;
-      }
+	  if ( isprint( *pc ) && !isspace( *pc ) )
+	  {
+		 pc = nullptr;   // we've found an alphanumeric character,  so text is valid
+		 break;
+	  }
    }
 
    if ( pc != nullptr)
-      return;  // no character found, so say nothing
+	  return;  // no character found, so say nothing
 
    // turn on color set 2  (color on,  no sound)
    sprintf( text, "%c%s: ", 2, STRING( pEntity->v.netname ) );
 
-   j = sizeof(text) - 2 - strlen(text);  // -2 for /n and null terminator
+	const unsigned int j = sizeof(text) - 2 - strlen(text);  // -2 for /n and null terminator
    if ( static_cast<int>(strlen(message)) > j )
-      message[j] = 0;
+	  message[j] = 0;
 
    strcat( text, message );
    strcat( text, "\n" );
@@ -160,25 +154,25 @@ void UTIL_HostSay( edict_t *pEntity, char *message )
    // so check it, or it will infinite loop
 
    if (gmsgSayText == 0)
-      gmsgSayText = REG_USER_MSG( "SayText", -1 );
+	  gmsgSayText = REG_USER_MSG( "SayText", -1 );
 
-   client = nullptr;
+   edict_t* client = nullptr;
    while ( ((client = UTIL_FindEntityByClassname( client, "player" )) != nullptr) &&
-           (!FNullEnt(client)) ) 
+		   (!FNullEnt(client)) ) 
    {
-      if ( client == pEntity )  // skip sender of message
-         continue;
+	  if ( client == pEntity )  // skip sender of message
+		 continue;
 
-      MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, client );
-         WRITE_BYTE( ENTINDEX(pEntity) );
-         WRITE_STRING( text );
-      MESSAGE_END();
+	  MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, client );
+		 WRITE_BYTE( ENTINDEX(pEntity) );
+		 WRITE_STRING( text );
+	  MESSAGE_END();
    }
 
    // print to the sending client
    MESSAGE_BEGIN( MSG_ONE_UNRELIABLE, gmsgSayText, nullptr, pEntity );
-      WRITE_BYTE( ENTINDEX(pEntity) );
-      WRITE_STRING( text );
+	  WRITE_BYTE( ENTINDEX(pEntity) );
+	  WRITE_STRING( text );
    MESSAGE_END();
 }
 
@@ -187,11 +181,11 @@ void UTIL_HostSay( edict_t *pEntity, char *message )
 edict_t *DBG_EntOfVars( const entvars_t *pev )
 {
    if (pev->pContainingEntity != NULL)
-      return pev->pContainingEntity;
+	  return pev->pContainingEntity;
    ALERT(at_console, "entvars_t pContainingEntity is NULL, calling into engine");
    edict_t* pent = (*g_engfuncs.pfnFindEntityByVars)((entvars_t*)pev);
    if (pent == NULL)
-      ALERT(at_console, "DAMN!  Even the engine couldn't FindEntityByVars!");
+	  ALERT(at_console, "DAMN!  Even the engine couldn't FindEntityByVars!");
    ((entvars_t *)pev)->pContainingEntity = pent;
    return pent;
 }
@@ -200,14 +194,12 @@ edict_t *DBG_EntOfVars( const entvars_t *pev )
 
 int UTIL_GetBotIndex(edict_t *pEdict)
 {
-   int index;
-
-   for (index=0; index < 32; index++)
+	for (int index = 0; index < 32; index++)
    {
-      if (bots[index].pEdict == pEdict)
-      {
-         return index;
-      }
+	  if (bots[index].pEdict == pEdict)
+	  {
+		 return index;
+	  }
    }
 
    return -1;  // return -1 if edict is not a bot
@@ -220,14 +212,14 @@ bot_t *UTIL_GetBotPointer(edict_t *pEdict)
 
    for (index=0; index < 32; index++)
    {
-      if (bots[index].pEdict == pEdict)
-      {
-         break;
-      }
+	  if (bots[index].pEdict == pEdict)
+	  {
+		 break;
+	  }
    }
 
    if (index < 32)
-      return (&bots[index]);
+	  return (&bots[index]);
 
    return nullptr;  // return NULL if edict is not a bot
 }
@@ -236,49 +228,45 @@ bot_t *UTIL_GetBotPointer(edict_t *pEdict)
 bool IsAlive(edict_t *pEdict)
 {
    return (pEdict->v.deadflag == DEAD_NO && pEdict->v.health > 0 &&
-           !(pEdict->v.flags & FL_NOTARGET) && pEdict->v.takedamage != 0.0f);
+		   !(pEdict->v.flags & FL_NOTARGET) && pEdict->v.takedamage != 0.0f);
 }
 
 bool FInViewCone(Vector *pOrigin, edict_t *pEdict)
 {
-   Vector2D vec2LOS;
-   float    flDot;
+	UTIL_MakeVectors ( pEdict->v.angles );
 
-   UTIL_MakeVectors ( pEdict->v.angles );
-
-   vec2LOS = ( *pOrigin - pEdict->v.origin ).Make2D();
+   Vector2D vec2LOS = (*pOrigin - pEdict->v.origin).Make2D();
    vec2LOS = vec2LOS.Normalize();
 
-   flDot = DotProduct (vec2LOS , gpGlobals->v_forward.Make2D() );
+	const float flDot = DotProduct(vec2LOS, gpGlobals->v_forward.Make2D());
 
    if ( flDot > 0.50f )  // 60 degree field of view 
-      return TRUE;
+	  return TRUE;
    else
-      return FALSE;
+	  return FALSE;
 }
 
 
 bool FVisible( const Vector &vecOrigin, edict_t *pEdict )
 {
    TraceResult tr;
-   Vector      vecLookerOrigin;
 
    // look through caller's eyes
-   vecLookerOrigin = pEdict->v.origin + pEdict->v.view_ofs;
+   const Vector vecLookerOrigin = pEdict->v.origin + pEdict->v.view_ofs;
 
    const int bInWater = (UTIL_PointContents (vecOrigin) == CONTENTS_WATER);
    const int bLookerInWater = (UTIL_PointContents (vecLookerOrigin) == CONTENTS_WATER);
 
    // don't look through water
    if (bInWater != bLookerInWater)
-      return FALSE;
+	  return FALSE;
 
    UTIL_TraceLine(vecLookerOrigin, vecOrigin, ignore_monsters, ignore_glass, pEdict, &tr);
 
    if (tr.flFraction != 1.0f)
-      return FALSE;  // Line of sight is not established
+	  return FALSE;  // Line of sight is not established
    else
-      return TRUE;  // line of sight is valid.
+	  return TRUE;  // line of sight is valid.
 }
 
 Vector Center(edict_t * pEdict)
@@ -306,22 +294,22 @@ void UTIL_BuildFileName(char *filename, char *arg1, char *arg2)
 
    if ((arg1) && (*arg1) && (arg2) && (*arg2))
    {
-      strcat(filename, arg1);
-      strcat(filename, "/");
-      strcat(filename, arg2);
+	  strcat(filename, arg1);
+	  strcat(filename, "/");
+	  strcat(filename, arg2);
    }
    else if ((arg1) && (*arg1))
    {
-      strcat(filename, arg1);
+	  strcat(filename, arg1);
    }
 }
 
 void ClampAngle(float& angle)
 {
-    if (angle >= 180.0f)
-        angle -= 360.0f * std::round(angle / 360.0f);
-    if (angle < -180.0f)
-        angle += 360.0f * std::round(-angle / 360.0f);
+	if (angle >= 180.0f)
+		angle -= 360.0f * std::round(angle / 360.0f);
+	if (angle < -180.0f)
+		angle += 360.0f * std::round(-angle / 360.0f);
 }
 
 void ClampAngles(Vector &angles)

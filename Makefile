@@ -2,9 +2,8 @@
 
 OBJ = bot.o bot_client.o dll.o engine.o h_export.o util.o
 
-CCOPT = -DNDEBUG -mtune=generic -march=i686 -O2 -m32 \
-		-mmmx -msse -msse2 -mfpmath=sse -funsafe-math-optimizations \
-		-Wno-attributes -Wno-write-strings -static-libgcc
+CCOPT = -DNDEBUG -mtune=generic -march=i686 -O2 -m32 -msse4.2 -mfpmath=sse \
+		-funsafe-math-optimizations -Wno-attributes -Wno-write-strings -static-libgcc
 
 #CCDEBUG = -ggdb3 -D_DEBUG
 
@@ -18,7 +17,7 @@ BASEFLAGS = -Dstricmp=strcasecmp -Dstrcmpi=strcasecmp
 CPPFLAGS = ${BASEFLAGS} ${CFLAGS}
 
 ricobot_mm.so:	${OBJ}
-	gcc -fPIC -shared -o $@ ${OBJ} -ldl -lm
+	gcc -m32 -fPIC -shared -o $@ ${OBJ} -ldl -lm 
 
 clean:
 	-rm -f *.o
