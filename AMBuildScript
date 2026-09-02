@@ -5,12 +5,13 @@ import os, sys
 builder.cxx = builder.DetectCxx(target_arch = 'x86')
 
 # Include search paths
+hlsdk_path = os.path.join(builder.currentSourcePath, 'hlsdk')
 include_paths = [
-  os.path.join(builder.currentSourcePath, 'hlsdk', 'common'),
-  os.path.join(builder.currentSourcePath, 'hlsdk', 'dlls'),
-  os.path.join(builder.currentSourcePath, 'hlsdk', 'engine'),
-  os.path.join(builder.currentSourcePath, 'hlsdk', 'pm_shared'),
-  os.path.join(builder.currentSourcePath, 'metamod'),
+    os.path.join(hlsdk_path, 'common'),
+    os.path.join(hlsdk_path, 'dlls'),
+    os.path.join(hlsdk_path, 'engine'),
+    os.path.join(hlsdk_path, 'pm_shared'),
+    os.path.join(builder.currentSourcePath, 'metamod'),
 ]
 
 # Compiler setup
@@ -28,25 +29,61 @@ if builder.cxx.like('gcc'):
 
 if builder.cxx.target.platform == 'linux':
   # Linux defines
-  builder.cxx.defines += ['_LINUX', 'POSIX', 'LINUX', 'linux']
+  builder.cxx.defines += ['_LINUX', 'POSIX', 'LINUX', 'linux', '_FORTIFY_SOURCE=2']
   # Linux compiler C flags
   builder.cxx.cflags += [
     '-pipe',
     '-fPIC',
-    '-msse4.2',
+    '-msse',
+    '-msse2',
+    '-mfpmath=sse',
     '-fno-strict-aliasing',
+    '-fno-exceptions',
+    '-fno-rtti',
+    '-fvisibility=hidden',
+    '-fvisibility-inlines-hidden',
+    '-ffunction-sections',
+    '-fdata-sections',
+    '-fstack-protector-strong',
+    '-fstack-clash-protection',
+    '-fcf-protection',
     '-Wall',
-    '-Werror',
+    #'-Werror',
+    '-Wextra',
+    '-Wshadow',
+    '-Wnon-virtual-dtor',
+    #'-Wold-style-cast',
+    '-Wcast-align',
+    '-Wunused',
+    '-Woverloaded-virtual',
+    '-Wpedantic',
+    '-Wconversion',
+    '-Wsign-conversion',
+    '-Wnull-dereference',
+    '-Wdouble-promotion',
+    '-Wformat=2',
+    '-Wformat-security',
     '-Wno-uninitialized',
     '-Wno-unused',
     '-Wno-switch',
-    '-Wno-format',
-    '-Wno-format-security',
-    '-Wno-unknown-attributes',
-    '-Wno-logical-op-parentheses',
-    '-Wno-return-stack-address',
     '-m32',
   ]
+  # GCC-specific warning suppressions
+  if builder.cxx.like('gcc'):
+    builder.cxx.cflags += [
+      '-Wno-attributes',
+      #'-Wno-dangling-pointer',
+      #'-Wno-stringop-overflow',
+      #'-fno-aggressive-loop-optimizations',
+    ]
+  # Clang-specific warning suppressions
+  if builder.cxx.like('clang'):
+    builder.cxx.cflags += [
+      '-Wno-unknown-attributes',
+      '-Wno-logical-op-parentheses',
+      '-Wno-return-stack-address',
+      '-Wno-string-plus-int',
+    ]
   # Linux compiler C++ flags
   builder.cxx.cxxflags += [
     '-Wno-invalid-offsetof',
@@ -54,7 +91,15 @@ if builder.cxx.target.platform == 'linux':
     '-std=c++17',
   ]
   # Linux linker flags
-  builder.cxx.linkflags += ['-m32', '-ldl', '-lm']
+  builder.cxx.linkflags += [
+    '-m32',
+    '-ldl',
+    '-lm',
+    '-Wl,--gc-sections',
+    '-Wl,--as-needed',
+    '-Wl,--no-undefined',
+    '-Wl,--strip-all',
+  ]
 elif builder.cxx.target.platform == 'windows':
   # Windows defines
   builder.cxx.defines += [
@@ -66,7 +111,11 @@ elif builder.cxx.target.platform == 'windows':
     '_WINDOWS'
   ]
   # Windows compiler C flags
-  builder.cxx.cflags += []
+  builder.cxx.cflags += [
+    '/W4',
+    '/GS-',
+    '/Gy',
+  ]
   # Windows compiler C++ flags
   builder.cxx.cxxflags += [
     '/std:c++17',
@@ -91,31 +140,50 @@ elif builder.cxx.target.platform == 'windows':
     'odbc32.lib',
     'odbccp32.lib',
     '/SECTION:.data,RW',
-    '/MACHINE:X86'
+    '/MACHINE:X86',
   ]
 
 # Compiler options for optimization ( --enable-optimize )
-if builder.options.optimize == '1':
+if builder.options.optimize:
   # Shared optimization definitions
   builder.cxx.defines += ['NDEBUG']
   if builder.cxx.target.platform == 'linux':
     # Linux optimization flags
-    builder.cxx.cflags += ['-O2']
+    builder.cxx.cflags += [
+      '-O2',
+      '-flto=auto',
+    ]
+    # LTO must be in link flags too - [APG]RoboCop[CL]
+    builder.cxx.linkflags += [
+      '-flto=auto',
+      '-s',
+      '-Wl,-z,relro,-z,now',
+      '-Wl,-z,noexecstack',
+    ]
   elif builder.cxx.target.platform == 'windows':
-    # Windows optimization flags - /Ob3 needs to be after /Ox, enables aggressive function inling -caxanga334
-    builder.cxx.cflags += ['/O2', '/Zo', '/Ob3', '/GF']
+    # Windows optimization flags - /Ob2 needs to be after /O2, enables aggressive function inling -caxanga334
+    builder.cxx.cflags += [
+      '/O2',
+      '/Ob2',
+      '/Oi',
+      '/Ot',
+      '/GL',
+      '/MT',
+    ]
     # Windows optimization link flags
-    builder.cxx.linkflags += ['/OPT:ICF', '/OPT:REF']
-    # This needs to be after our optimization flags which could otherwise disable it.
-    builder.cxx.cflags += ['/Oy-']
+    builder.cxx.linkflags += [
+      '/OPT:ICF',
+      '/OPT:REF',
+      '/LTCG',
+    ]
 
 # Compiler options for debugging ( --enable-debug )
-if builder.options.debug == '1':
+if builder.options.debug:
   # Shared debug definitions
   builder.cxx.defines += ['DEBUG', '_DEBUG']
   if builder.cxx.target.platform == 'linux':
     # Linux debug flags
-    builder.cxx.cflags += ['-g3', '-O0']
+    builder.cxx.cflags += ['-g3', '-O0', '-fsanitize=address', '-fsanitize=undefined', '-fsanitize=leak']
   elif builder.cxx.target.platform == 'windows':
     # Windows debug flags
     builder.cxx.cflags += ['/Od', '/RTC1', '/MTd']
@@ -124,12 +192,12 @@ if builder.options.debug == '1':
 
 # Handle --enable-static-lib and --enable-shared-lib
 if builder.cxx.target.platform == 'linux':
-  if builder.options.staticlib == '1':
+  if builder.options.staticlib:
     builder.cxx.linkflags += [
       '-static-libgcc',
       '-static-libstdc++'
     ]
-  elif builder.options.sharedlib == '1':
+  elif builder.options.sharedlib:
     builder.cxx.linkflags += [
       '-shared-libgcc',
     ]
