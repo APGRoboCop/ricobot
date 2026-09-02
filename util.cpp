@@ -141,7 +141,7 @@ void UTIL_HostSay( edict_t *pEntity, char *message )
 	  return;  // no character found, so say nothing
 
    // turn on color set 2  (color on,  no sound)
-   sprintf( text, "%c%s: ", 2, STRING( pEntity->v.netname ) );
+   snprintf( text, sizeof(text), "%c%s: ", 2, STRING( pEntity->v.netname ) );
 
 	const unsigned int j = sizeof(text) - 2 - strlen(text);  // -2 for /n and null terminator
    if ( static_cast<int>(strlen(message)) > j )

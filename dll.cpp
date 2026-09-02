@@ -341,7 +341,7 @@ void ClientCommand( edict_t *pEntity )
                default_bot_skill = temp;
          }
 
-         sprintf(msg, "botskill is %d\n", default_bot_skill);
+         snprintf(msg, sizeof(msg), "botskill is %d\n", default_bot_skill);
          ClientPrint(pEntity, HUD_PRINTNOTIFY, msg);
 
          RETURN_META(MRES_SUPERCEDE);
@@ -376,7 +376,7 @@ void ClientCommand( edict_t *pEntity )
                bot_chat_percent = temp;
          }
 
-         sprintf(msg, "bot_chat_percent is %d\n", bot_chat_percent);
+         snprintf(msg, sizeof(msg), "bot_chat_percent is %d\n", bot_chat_percent);
          ClientPrint(pEntity, HUD_PRINTNOTIFY, msg);
 
          RETURN_META(MRES_SUPERCEDE);
@@ -442,7 +442,7 @@ void StartFrame()
                }
 
                // check for any bots that were very recently kicked...
-               if ((bots[index].kick_time + 5.0f) > previous_time)
+               if (bots[index].kick_time + 5.0f > previous_time)
                {
                   bots[index].respawn_state = RESPAWN_NEED_TO_RESPAWN;
                   count++;
@@ -463,16 +463,16 @@ void StartFrame()
 
       if (!IS_DEDICATED_SERVER())
       {
-         if ((listenserver_edict != nullptr) && (welcome_sent == FALSE) &&
-             (welcome_time < 1.0f))
+         if (listenserver_edict != nullptr && welcome_sent == FALSE &&
+             welcome_time < 1.0f)
          {
             // are they out of observer mode yet?
             if (IsAlive(listenserver_edict))
                welcome_time = gpGlobals->time + 5.0f;  // welcome in 5 seconds
          }
 
-         if ((welcome_time > 0.0f) && (welcome_time < gpGlobals->time) &&
-             (welcome_sent == FALSE))
+         if (welcome_time > 0.0f && welcome_time < gpGlobals->time &&
+             welcome_sent == FALSE)
          {
             // send the welcome message to this client
             MESSAGE_BEGIN(MSG_ONE_UNRELIABLE, SVC_TEMPENTITY, nullptr, listenserver_edict);
@@ -503,8 +503,8 @@ void StartFrame()
 
       for (bot_index = 0; bot_index < gpGlobals->maxClients; bot_index++)
       {
-         if ((bots[bot_index].is_used) &&  // is this slot used AND
-             (bots[bot_index].respawn_state == RESPAWN_IDLE))  // not respawning
+         if (bots[bot_index].is_used &&  // is this slot used AND
+             bots[bot_index].respawn_state == RESPAWN_IDLE)  // not respawning
          {
             BotThink(&bots[bot_index]);
 
@@ -582,14 +582,14 @@ void StartFrame()
                   if (respawn_time >= 1.0f)
                      respawn_time = std::fmin(respawn_time, gpGlobals->time + 1.0f);
 
-                  if (bot_cfg_pause_time >= 1.0)
+                  if (bot_cfg_pause_time >= 1.0f)
                      bot_cfg_pause_time = std::fmin(bot_cfg_pause_time, gpGlobals->time + 1.0f);
                }
             }
          }
 
-         if ((bot_cfg_fp) &&
-             (bot_cfg_pause_time >= 1.0f) && (bot_cfg_pause_time <= gpGlobals->time))
+         if (bot_cfg_fp &&
+             bot_cfg_pause_time >= 1.0f && bot_cfg_pause_time <= gpGlobals->time)
          {
             // process bot.cfg file options...
             ProcessBotCfgFile();
@@ -606,7 +606,7 @@ void StartFrame()
          {
 	         const edict_t *pPlayer = INDEXENT(i);
             if (!FNullEnt(pPlayer) && !pPlayer->free &&
-               (pPlayer->v.flags & (FL_CLIENT | FL_FAKECLIENT)))
+               pPlayer->v.flags & (FL_CLIENT | FL_FAKECLIENT))
                count++;
          }
 
@@ -658,7 +658,7 @@ void ProcessBotCfgFile()
    while (ch == ' ')
       ch = fgetc(bot_cfg_fp);
 
-   while ((ch != EOF) && (ch != '\r') && (ch != '\n'))
+   while (ch != EOF && ch != '\r' && ch != '\n')
    {
       if (ch == '\t')  // convert tabs to spaces
          ch = ' ';
@@ -668,8 +668,8 @@ void ProcessBotCfgFile()
       ch = fgetc(bot_cfg_fp);
 
       // skip multiple spaces in input file
-      while ((cmd_line[cmd_index] == ' ') &&
-             (ch == ' '))      
+      while (cmd_line[cmd_index] == ' ' &&
+             ch == ' ')      
          ch = fgetc(bot_cfg_fp);
 
       cmd_index++;
@@ -700,7 +700,7 @@ void ProcessBotCfgFile()
    arg1 = arg2 = nullptr;
 
    // skip to blank or end of string...
-   while ((cmd_line[cmd_index] != ' ') && (cmd_line[cmd_index] != 0))
+   while (cmd_line[cmd_index] != ' ' && cmd_line[cmd_index] != 0)
       cmd_index++;
 
    if (cmd_line[cmd_index] == ' ')
@@ -709,7 +709,7 @@ void ProcessBotCfgFile()
       arg1 = &cmd_line[cmd_index];
 
       // skip to blank or end of string...
-      while ((cmd_line[cmd_index] != ' ') && (cmd_line[cmd_index] != 0))
+      while (cmd_line[cmd_index] != ' ' && cmd_line[cmd_index] != 0)
          cmd_index++;
 
       if (cmd_line[cmd_index] == ' ')
@@ -776,12 +776,12 @@ void ProcessBotCfgFile()
    {
        min_bots = std::atoi(arg1);
 
-       if ((min_bots < 0) || (min_bots > 31))
+       if (min_bots < 0 || min_bots > 31)
            min_bots = 1;
 
        if (IS_DEDICATED_SERVER())
        {
-           sprintf(msg, "min_bots set to %d\n", min_bots);
+           snprintf(msg, sizeof(msg), "min_bots set to %d\n", min_bots);
            printf("%s", msg);  // Corrected printf call
        }
 
@@ -792,12 +792,12 @@ void ProcessBotCfgFile()
    {
       max_bots = std::atoi(arg1);
 
-      if ((max_bots < 0) || (max_bots > 31)) 
+      if (max_bots < 0 || max_bots > 31) 
          max_bots = 1;
 
       if (IS_DEDICATED_SERVER())
       {
-         sprintf(msg, "max_bots set to %d\n", max_bots);
+         snprintf(msg, sizeof(msg), "max_bots set to %d\n", max_bots);
          printf("%s", msg);  // Corrected printf call
       }
 
@@ -814,7 +814,7 @@ void ProcessBotCfgFile()
    {
 	   const int temp = std::atoi(arg1);
 
-      if ((temp >= 0) && (temp <= 100))
+      if (temp >= 0 && temp <= 100)
          bot_chat_percent = std::atoi( arg1 );  // set bot chat percent
 
       return;

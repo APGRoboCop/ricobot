@@ -623,7 +623,7 @@ void BotThink( bot_t *pBot )
 	  recent_bot_whine[0] = whine_index;
 
 	  if (pBot->killer_edict != nullptr && strstr(bot_whine[whine_index], "%s") != nullptr)
-		  sprintf(msg, bot_whine[whine_index], STRING(pBot->killer_edict->v.netname));
+		  snprintf(msg, sizeof(msg), bot_whine[whine_index], STRING(pBot->killer_edict->v.netname));
 	  else
 		  snprintf(msg, sizeof(msg), "%s", bot_whine[whine_index]);
 
